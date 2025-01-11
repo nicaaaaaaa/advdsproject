@@ -12,7 +12,7 @@ from sklearn.metrics import mean_squared_error, r2_score
 st.title("Data Analysis Dashboard")
 
 # Load datasets
-@st.cache
+@st.cache_data
 def load_data():
     pricecatcher = pd.read_csv('https://raw.githubusercontent.com/nicaaaaaaa/advdsproject/refs/heads/main/012024.csv')
     lookup_premise = pd.read_csv('https://raw.githubusercontent.com/nicaaaaaaa/advdsproject/refs/heads/main/lookup_premise.csv')
