@@ -1,8 +1,12 @@
 import streamlit as st
 import pandas as pd
+import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 from scipy.stats import skew, kurtosis
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import mean_squared_error, r2_score
 
 # Streamlit app title
 st.title("Data Analysis Dashboard")
@@ -81,6 +85,85 @@ kurt = income_data['income_mean'].kurt()
 st.write(f"Skewness: {skewness:.2f}")
 st.write(f"Kurtosis: {kurt:.2f}")
 
+# Streamlit app title
+st.title("District Price Prediction Using Linear Regression")
+
+# Load district price data (replace with your source or data loading method)
+@st.cache
+def load_district_data():
+    # Sample DataFrame (replace with actual data loading code)
+    district_price_perak = pd.DataFrame({
+        'district': ['A', 'B', 'C', 'D'],
+        'item_price': [15.5, 20.1, 13.2, 18.4]
+    })
+    return district_price_perak
+
+# Load data
+district_price_perak = load_district_data()
+
+# One-hot encoding of districts
+district_encoded = pd.get_dummies(district_price_perak['district'], prefix='district')
+district_price_perak = pd.concat([district_price_perak.reset_index(drop=True), district_encoded], axis=1)
+
+# Define features and target
+X = district_price_perak.drop(['district', 'item_price'], axis=1)
+y = district_price_perak['item_price']
+
+# Train-test split
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Model training
+model = LinearRegression()
+model.fit(X_train, y_train)
+
+# Predictions and evaluation
+y_pred = model.predict(X_test)
+mse = mean_squared_error(y_test, y_pred)
+r2 = r2_score(y_test, y_pred)
+
+# Display evaluation metrics
+st.subheader("Model Evaluation")
+st.write(f"Mean Squared Error: {mse:.2f}")
+st.write(f"R-squared: {r2:.2f}")
+
+# Prediction for all districts
+st.subheader("Predicted Prices for Districts")
+all_districts = district_price_perak['district'].unique()
+predicted_prices = {}
+
+for district in all_districts:
+    # Create input data for prediction
+    district_data = pd.DataFrame(0, index=[0], columns=X.columns)
+    district_data[f'district_{district}'] = 1
+    predicted_price = model.predict(district_data)[0]
+    predicted_prices[district] = predicted_price
+
+# Display predicted prices
+predicted_df = pd.DataFrame(list(predicted_prices.items()), columns=['District', 'Predicted Price'])
+st.write(predicted_df)
+
+# Visualization: Actual vs. Predicted Prices
+st.subheader("Actual vs. Predicted Prices")
+results = pd.DataFrame({'Actual Price': y_test, 'Predicted Price': y_pred})
+
+# Bar plot
+fig, ax = plt.subplots(figsize=(10, 6))
+sns.barplot(data=pd.melt(results.reset_index(), id_vars=['index'], var_name='Price Type', value_name='Price'),
+            x='index', y='Price', hue='Price Type', ax=ax)
+plt.xticks(rotation=45, ha='right')
+plt.title('Actual vs. Predicted Prices')
+plt.ylabel('Price')
+st.pyplot(fig)
+
+# Scatter plot
+st.subheader("Scatter Plot: Actual vs. Predicted Prices")
+fig, ax = plt.subplots(figsize=(8, 6))
+sns.scatterplot(x=y_test, y=y_pred, ax=ax)
+plt.plot([min(y_test), max(y_test)], [min(y_test), max(y_test)], 'k--', linewidth=2)  # Diagonal line
+plt.xlabel('Actual Price')
+plt.ylabel('Predicted Price')
+plt.title('Actual vs. Predicted Prices')
+st.pyplot(fig)
 # Summary statistics by district
 district_summary = merged_data_perak.groupby('district')['item_price'].describe()
 st.subheader("Summary Statistics by District")
