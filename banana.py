@@ -56,6 +56,46 @@ plt.xticks(rotation=45, ha='right')
 plt.title('Average Price by District in Perak')
 st.pyplot(fig)
 
+# Sidebar for filtering
+st.sidebar.header("Filters")
+selected_district = st.sidebar.multiselect(
+    "Select District(s):", 
+    options=district_premise_price['district'].unique(),
+    default=district_premise_price['district'].unique()
+)
+
+selected_premise_type = st.sidebar.multiselect(
+    "Select Premise Type(s):", 
+    options=district_premise_price['premise_type'].unique(),
+    default=district_premise_price['premise_type'].unique()
+)
+
+# Filter the dataset
+filtered_data = district_premise_price[
+    (district_premise_price['district'].isin(selected_district)) & 
+    (district_premise_price['premise_type'].isin(selected_premise_type))
+]
+
+# Visualization
+st.subheader("Bar Plot of Average Prices by Premise Type")
+fig, ax = plt.subplots(figsize=(14, 8))
+sns.barplot(
+    data=filtered_data, 
+    x='district', 
+    y='item_price', 
+    hue='premise_type', 
+    palette='viridis', 
+    ax=ax
+)
+ax.set_xticklabels(ax.get_xticklabels(), rotation=45, ha='right')
+ax.set_title('Average Price by Premise Type in Perak Districts', fontsize=16)
+ax.set_xlabel('District', fontsize=12)
+ax.set_ylabel('Average Price (RM)', fontsize=12)
+plt.tight_layout()
+
+# Display the plot
+st.pyplot(fig)
+
 st.subheader("Price Distribution by District in Perak")
 fig, ax = plt.subplots(figsize=(12, 6))
 sns.boxplot(data=merged_data_perak, x='district', y='item_price', palette='coolwarm', ax=ax)
