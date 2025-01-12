@@ -86,6 +86,64 @@ st.write(f"Skewness: {skewness:.2f}")
 st.write(f"Kurtosis: {kurt:.2f}")
 
 # Streamlit app title
+st.title("Price Analysis Dashboard")
+
+# Merge and preprocess data
+pricecatcher['date'] = pd.to_datetime(pricecatcher['date'], errors='coerce')
+pricecatcher_selected = pricecatcher[['premise_code', 'item_code', 'price', 'date']].copy()
+pricecatcher_selected.rename(columns={'price': 'item_price'}, inplace=True)
+lookup_premise_selected = lookup_premise[['premise_code', 'premise', 'premise_type', 'state', 'district']].copy()
+merged_data = pd.merge(pricecatcher_selected, lookup_premise_selected, on='premise_code', how='inner')
+
+# Filter data for Perak
+merged_data_perak = merged_data[merged_data['state'] == 'Perak']
+
+# Sidebar options
+st.sidebar.header("Filters")
+show_trend = st.sidebar.checkbox("Show Price Trend Over Time", True)
+show_urban_rural = st.sidebar.checkbox("Compare Urban vs Rural Prices", True)
+show_district_summary = st.sidebar.checkbox("Show District Summary", True)
+
+# Display filtered options
+if show_trend:
+    st.subheader("Average Price Trend Over Time")
+    price_trend = merged_data_perak.groupby('date')['item_price'].mean().reset_index()
+    fig, ax = plt.subplots(figsize=(10, 6))
+    sns.lineplot(data=price_trend, x='date', y='item_price', marker='o', color='green', ax=ax)
+    ax.set_title('Average Item Price Over Time', fontsize=16)
+    ax.set_xlabel('Date', fontsize=12)
+    ax.set_ylabel('Average Price (RM)', fontsize=12)
+    st.pyplot(fig)
+
+if show_urban_rural:
+    st.subheader("Average Prices by Premise Type")
+    urban_rural_prices = merged_data_perak.groupby('premise_type')['item_price'].mean().reset_index()
+    st.write(urban_rural_prices)
+    fig, ax = plt.subplots(figsize=(8, 5))
+    sns.barplot(data=urban_rural_prices, x='premise_type', y='item_price', palette='mako', ax=ax)
+    ax.set_title('Average Prices by Premise Type in Perak', fontsize=16)
+    ax.set_xlabel('Premise Type', fontsize=12)
+    ax.set_ylabel('Average Price (RM)', fontsize=12)
+    st.pyplot(fig)
+
+if show_district_summary:
+    st.subheader("Summary Statistics by District")
+    district_summary = merged_data_perak.groupby('district')['item_price'].describe()
+    st.write(district_summary)
+
+    # Boxplot for district price distribution
+    st.subheader("Price Distribution by District")
+    fig, ax = plt.subplots(figsize=(12, 6))
+    sns.boxplot(data=merged_data_perak, x='district', y='item_price', palette='coolwarm', ax=ax)
+    ax.set_xticklabels(ax.get_xticklabels(), rotation=45, ha='right')
+    ax.set_title('Price Distribution by District in Perak', fontsize=16)
+    ax.set_xlabel('District', fontsize=12)
+    ax.set_ylabel('Item Price (RM)', fontsize=12)
+    st.pyplot(fig)
+
+st.sidebar.info("Select the filters above to customize the dashboard view.")
+
+# Streamlit app title
 st.title("District Price Prediction Using Linear Regression")
 
 # Load district price data (replace with your source or data loading method)
