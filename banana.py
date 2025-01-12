@@ -85,6 +85,15 @@ kurt = income_data['income_mean'].kurt()
 st.write(f"Skewness: {skewness:.2f}")
 st.write(f"Kurtosis: {kurt:.2f}")
 
+# Load datasets
+@st.cache_data
+def load_data():
+    pricecatcher = pd.read_csv('https://raw.githubusercontent.com/nicaaaaaaa/advdsproject/refs/heads/main/012024.csv')
+    lookup_premise = pd.read_csv('https://raw.githubusercontent.com/nicaaaaaaa/advdsproject/refs/heads/main/lookup_premise.csv')
+    return pricecatcher, lookup_premise
+
+pricecatcher, lookup_premise = load_data()
+
 # Streamlit app title
 st.title("Price Analysis Dashboard")
 
