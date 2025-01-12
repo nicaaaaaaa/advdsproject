@@ -56,26 +56,6 @@ plt.xticks(rotation=45, ha='right')
 plt.title('Average Price by District in Perak')
 st.pyplot(fig)
 
-# Sidebar for filtering
-st.sidebar.header("Filters")
-selected_district = st.sidebar.multiselect(
-    "Select District(s):", 
-    options=district_premise_price['district'].unique(),
-    default=district_premise_price['district'].unique()
-)
-
-selected_premise_type = st.sidebar.multiselect(
-    "Select Premise Type(s):", 
-    options=district_premise_price['premise_type'].unique(),
-    default=district_premise_price['premise_type'].unique()
-)
-
-# Filter the dataset
-filtered_data = district_premise_price[
-    (district_premise_price['district'].isin(selected_district)) & 
-    (district_premise_price['premise_type'].isin(selected_premise_type))
-]
-
 # Select and preprocess the datasets
     pricecatcher_selected = pricecatcher[['premise_code', 'item_code', 'price']].copy()
     pricecatcher_selected.rename(columns={'price': 'item_price'}, inplace=True)
