@@ -52,6 +52,28 @@ plt.xticks(rotation=45, ha='right')
 plt.title('Average Price by District in Perak')
 st.pyplot(fig)
 
+# Sidebar options
+st.sidebar.header("Filters")
+sort_order = st.sidebar.radio("Sort Districts By:", ("Ascending", "Descending"), index=1)
+
+# Sort the dataset for visualization
+district_price_perak = district_price_perak.sort_values(
+    by='item_price', ascending=(sort_order == "Ascending")
+)
+
+# Visualization
+st.subheader("Bar Plot of Average Prices by District")
+fig, ax = plt.subplots(figsize=(12, 6))
+sns.barplot(data=district_price_perak, x='district', y='item_price', palette='viridis', ax=ax)
+ax.set_xticklabels(ax.get_xticklabels(), rotation=45, ha='right')
+ax.set_title('Average Price by District in Perak', fontsize=16)
+ax.set_xlabel('District', fontsize=12)
+ax.set_ylabel('Average Price (RM)', fontsize=12)
+plt.tight_layout()
+
+# Display the plot
+st.pyplot(fig)
+
 st.subheader("Price Distribution by District in Perak")
 fig, ax = plt.subplots(figsize=(12, 6))
 sns.boxplot(data=merged_data_perak, x='district', y='item_price', palette='coolwarm', ax=ax)
