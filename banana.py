@@ -76,17 +76,39 @@ filtered_data = district_premise_price[
     (district_premise_price['premise_type'].isin(selected_premise_type))
 ]
 
-# Visualization
-st.subheader("Bar Plot of Average Prices by Premise Type")
-fig, ax = plt.subplots(figsize=(14, 8))
-sns.barplot(
-    data=filtered_data, 
-    x='district', 
-    y='item_price', 
-    hue='premise_type', 
-    palette='viridis', 
-    ax=ax
+# Select and preprocess the datasets
+    pricecatcher_selected = pricecatcher[['premise_code', 'item_code', 'price']].copy()
+    pricecatcher_selected.rename(columns={'price': 'item_price'}, inplace=True)
+
+    lookup_premise_selected = lookup_premise[['premise_code', 'premise', 'premise_type', 'state', 'district']].copy()
+
+    # Merge datasets
+    merged_data = pd.merge(pricecatcher_selected, lookup_premise_selected, on=['premise_code'], how='inner')
+    
+    # Filter for Perak state
+    return merged_data[merged_data['state'] == 'Perak']
+
+# Load the data
+merged_data_perak = load_data()
+
+# Group and calculate average prices
+district_premise_price = merged_data_perak.groupby(['district', 'premise_type'])['item_price'].mean().reset_index()
+
+# Sidebar filters
+st.sidebar.header("Filters")
+district_filter = st.sidebar.multiselect(
+    "Select District(s):", 
+    options=district_premise_price['district'].unique(), 
+    default=district_premise_price['district'].unique()
 )
+
+# Apply filters
+filtered_data = district_premise_price[district_premise_price['district'].isin(district_filter)]
+
+# Plot the data
+st.subheader("Bar Plot of Average Prices by Premise Type in Perak Districts")
+fig, ax = plt.subplots(figsize=(14, 8))
+sns.barplot(data=filtered_data, x='district', y='item_price', hue='premise_type', palette='viridis', ax=ax)
 ax.set_xticklabels(ax.get_xticklabels(), rotation=45, ha='right')
 ax.set_title('Average Price by Premise Type in Perak Districts', fontsize=16)
 ax.set_xlabel('District', fontsize=12)
