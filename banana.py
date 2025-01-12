@@ -56,6 +56,14 @@ plt.xticks(rotation=45, ha='right')
 plt.title('Average Price by District in Perak')
 st.pyplot(fig)
 
+# Load dataset (replace this with your actual data source)
+@st.cache_data
+def load_data():
+    # Replace these URLs with your dataset URLs or paths
+    pricecatcher = pd.read_csv('https://raw.githubusercontent.com/nicaaaaaaa/advdsproject/refs/heads/main/012024.csv')
+    lookup_premise = pd.read_csv('https://raw.githubusercontent.com/nicaaaaaaa/advdsproject/refs/heads/main/lookup_premise.csv')
+
+
 # Select and preprocess the datasets
     pricecatcher_selected = pricecatcher[['premise_code', 'item_code', 'price']].copy()
     pricecatcher_selected.rename(columns={'price': 'item_price'}, inplace=True)
