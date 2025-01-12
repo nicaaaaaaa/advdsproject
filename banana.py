@@ -42,6 +42,10 @@ lookup_premise_selected = lookup_premise[['premise_code', 'premise', 'premise_ty
 merged_data = pd.merge(pricecatcher_selected, lookup_premise_selected, on='premise_code', how='inner')
 merged_data_perak = merged_data[merged_data['state'] == 'Perak']
 
+# Sidebar options
+st.sidebar.header("Filters")
+sort_order = st.sidebar.radio("Sort Districts By:", ("Ascending", "Descending"), index=1)
+
 # Analysis and Visualizations
 st.subheader("Average Price by District in Perak")
 district_price_perak = merged_data_perak.groupby('district')['item_price'].mean().reset_index().sort_values(by='item_price', ascending=False)
@@ -50,28 +54,6 @@ fig, ax = plt.subplots(figsize=(12, 6))
 sns.barplot(data=district_price_perak, x='district', y='item_price', palette='viridis', ax=ax)
 plt.xticks(rotation=45, ha='right')
 plt.title('Average Price by District in Perak')
-st.pyplot(fig)
-
-# Sidebar options
-st.sidebar.header("Filters")
-sort_order = st.sidebar.radio("Sort Districts By:", ("Ascending", "Descending"), index=1)
-
-# Sort the dataset for visualization
-district_price_perak = district_price_perak.sort_values(
-    by='item_price', ascending=(sort_order == "Ascending")
-)
-
-# Visualization
-st.subheader("Bar Plot of Average Prices by District")
-fig, ax = plt.subplots(figsize=(12, 6))
-sns.barplot(data=district_price_perak, x='district', y='item_price', palette='viridis', ax=ax)
-ax.set_xticklabels(ax.get_xticklabels(), rotation=45, ha='right')
-ax.set_title('Average Price by District in Perak', fontsize=16)
-ax.set_xlabel('District', fontsize=12)
-ax.set_ylabel('Average Price (RM)', fontsize=12)
-plt.tight_layout()
-
-# Display the plot
 st.pyplot(fig)
 
 st.subheader("Price Distribution by District in Perak")
