@@ -89,7 +89,7 @@ st.write(f"Kurtosis: {kurt:.2f}")
 st.title("District Price Prediction Using Linear Regression")
 
 # Load district price data (replace with your source or data loading method)
-@st.cache
+@st.cache_data
 def load_district_data():
     # Sample DataFrame (replace with actual data loading code)
     district_price_perak = pd.DataFrame({
