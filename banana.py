@@ -106,9 +106,6 @@ plt.tight_layout()
 # Display the plot
 st.pyplot(fig)
 
-# Streamlit app title
-st.title("Distribution of Item Prices in Perak")
-
 # Load dataset 
 @st.cache_data
 def load_data():
