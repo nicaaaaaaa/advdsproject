@@ -56,7 +56,7 @@ plt.xticks(rotation=45, ha='right')
 plt.title('Average Price by District in Perak')
 st.pyplot(fig)
 
-# Load dataset (replace this with your actual data source)
+# Load dataset 
 @st.cache_data
 def load_data():
     # Replace these URLs with your dataset URLs or paths
@@ -101,6 +101,46 @@ ax.set_xticklabels(ax.get_xticklabels(), rotation=45, ha='right')
 ax.set_title('Average Price by Premise Type in Perak Districts', fontsize=16)
 ax.set_xlabel('District', fontsize=12)
 ax.set_ylabel('Average Price (RM)', fontsize=12)
+plt.tight_layout()
+
+# Display the plot
+st.pyplot(fig)
+
+# Streamlit app title
+st.title("Distribution of Item Prices in Perak")
+
+# Load dataset 
+@st.cache_data
+def load_data():
+    pricecatcher = pd.read_csv('https://raw.githubusercontent.com/nicaaaaaaa/advdsproject/refs/heads/main/012024.csv')
+    lookup_premise = pd.read_csv('https://raw.githubusercontent.com/nicaaaaaaa/advdsproject/refs/heads/main/lookup_premise.csv')
+
+    # Select and preprocess the datasets
+    pricecatcher_selected = pricecatcher[['premise_code', 'item_code', 'price']].copy()
+    pricecatcher_selected.rename(columns={'price': 'item_price'}, inplace=True)
+
+    lookup_premise_selected = lookup_premise[['premise_code', 'premise', 'premise_type', 'state', 'district']].copy()
+
+    # Merge datasets
+    merged_data = pd.merge(pricecatcher_selected, lookup_premise_selected, on=['premise_code'], how='inner')
+    
+    # Filter for Perak state
+    return merged_data[merged_data['state'] == 'Perak']
+
+# Load the data
+merged_data_perak = load_data()
+
+# Sidebar filter: Number of bins
+st.sidebar.header("Histogram Settings")
+num_bins = st.sidebar.slider("Number of bins:", min_value=5, max_value=50, value=20, step=1)
+
+# Plot the distribution
+st.subheader("Histogram of Item Prices in Perak")
+fig, ax = plt.subplots(figsize=(8, 5))
+sns.histplot(merged_data_perak['item_price'], bins=num_bins, kde=True, color='blue', ax=ax)
+ax.set_title('Distribution of Item Prices in Perak', fontsize=16)
+ax.set_xlabel('Item Price (RM)', fontsize=12)
+ax.set_ylabel('Frequency', fontsize=12)
 plt.tight_layout()
 
 # Display the plot
