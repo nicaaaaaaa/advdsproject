@@ -326,3 +326,14 @@ st.pyplot(fig)
 district_summary = merged_data_perak.groupby('district')['item_price'].describe()
 st.subheader("Summary Statistics by District")
 st.write(district_summary)
+
+# Streamlit app title
+st.title("Diagnostic Analysis")
+
+st.markdown("""
+- **Point 1**: Explanation of the first point.
+- **Point 2**: Explanation of the second point.
+  - Sub-point 2.1: Details about sub-point.
+  - Sub-point 2.2: More details.
+- **Point 3**: Final point with explanation.
+""")
