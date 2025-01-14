@@ -228,7 +228,7 @@ predicted_prices = {}
 # Assuming you have district_predictions and district_price_perak
 
 
-  district_predictions = {
+district_predictions = {
     "District A": 150,
     "District B": 200,
     "District C": 250
