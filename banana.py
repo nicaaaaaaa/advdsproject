@@ -245,7 +245,7 @@ district_predictions_perak = {
     "Hulu Perak": 6.73,
     "Manjung": 6.30,
     "Kuala Kangsar": 6.21,
-    "Larut Matang & Selama": 6.34,
+    "Larut, Matang & Selama": 6.34,
     "Hilir Perak": 7.46,
     "Batang Padang": 6.30
 }
@@ -258,18 +258,19 @@ district_price_perak = pd.DataFrame({
     'item_price': [6.08, 6.30, 6.5, 6.89, 6.72, 6.30, 6.21, 6.34, 7.46, 6.30]
 })
 
-# Ensure no district mismatch between predictions and actual data
-district_predictions = district_predictions_perak  # Use the correct dictionary
+# Sort both lists by district name to ensure consistency in order
+district_predictions_sorted = {k: district_predictions_perak[k] for k in sorted(district_predictions_perak.keys())}
+district_price_sorted = district_price_perak.sort_values('district', ascending=True)
 
-# Check for consistency between district names
-if set(district_predictions.keys()) != set(district_price_perak['district']):
+# Ensure the district names match in order
+if list(district_predictions_sorted.keys()) != list(district_price_sorted['district']):
     st.error("District names do not match between predictions and actual prices!")
 else:
     # Create a DataFrame for plotting
     plot_data = pd.DataFrame({
-        'District': list(district_predictions.keys()),
-        'Predicted Price': list(district_predictions.values()),
-        'Actual Price': district_price_perak['item_price'].values
+        'District': list(district_predictions_sorted.keys()),
+        'Predicted Price': list(district_predictions_sorted.values()),
+        'Actual Price': district_price_sorted['item_price'].values
     })
 
     # Melt the DataFrame for easier plotting with seaborn
@@ -288,17 +289,18 @@ else:
 
     # Display predictions in the desired format
     st.subheader("Predicted Prices for All Districts")
-    for district, price in district_predictions.items():
+    for district, price in district_predictions_sorted.items():
         st.write(f"**Predicted price for {district} district:** RM {price:.2f}")
 
     # Visualization: Bar chart
     st.subheader("Prediction Visualization")
-    predicted_df = pd.DataFrame(list(district_predictions.items()), columns=['District', 'Predicted Price'])
+    predicted_df = pd.DataFrame(list(district_predictions_sorted.items()), columns=['District', 'Predicted Price'])
     st.bar_chart(predicted_df.set_index('District'))
 
     # One-hot encoding of districts
-    district_encoded = pd.get_dummies(district_price_perak['district'], prefix='district')
-    district_price_perak = pd.concat([district_price_perak.reset_index(drop=True), district_encoded], axis=1)
+    district_encoded = pd.get_dummies(district_price_sorted['district'], prefix='district')
+    district_price_sorted = pd.concat([district_price_sorted.reset_index(drop=True), district_encoded], axis=1)
+    
 # Define features and target
 X = district_price_perak.drop(['district', 'item_price'], axis=1)
 y = district_price_perak['item_price']
