@@ -358,3 +358,9 @@ st.pyplot(fig)
 district_summary = merged_data_perak.groupby('district')['item_price'].describe()
 st.subheader("Summary Statistics by District")
 st.write(district_summary)
+
+st.markdown("""
+## Prescriptive Analysis  
+
+""")
+
