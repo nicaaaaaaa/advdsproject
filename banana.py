@@ -256,7 +256,7 @@ else:
 
 
 
-}
+
 
 district_price_perak = pd.DataFrame({
     'district': ["District A", "District B", "District C"],
