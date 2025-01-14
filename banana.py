@@ -240,9 +240,12 @@ district_predictions_perak = {
 }
 
 district_price_perak = pd.DataFrame({
-    'district': ["District A", "District B", "District C"],
-    'item_price': [140, 195, 245]
-})
+     district_price_perak = pd.DataFrame({
+        'district': ['Muallim', 'Perak Tengah', 'Kerian', 'Kinta', 'Hulu Perak', 
+                     'Manjung', 'Kuala Kangsar', 'Larut, Matang & Selama', 
+                     'Hilir Perak', 'Batang Padang'],
+        'item_price': [6.08, 6.30, 6.5, 6.89, 6.72, 6.30, 6.21, 6.34, 7.46, 6.30]
+    })
 
 if set(district_predictions.keys()) != set(district_price_perak['district']):
     st.error("District names do not match between predictions and actual prices!")
