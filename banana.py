@@ -49,6 +49,23 @@ def load_data():
 merged_data = load_data()
 merged_data_perak = merged_data[merged_data['state'] == 'Perak']
 
+# Load data
+pricecatcher, lookup_premise, income_data, district_data = load_data()
+
+# Display dataframes
+if st.checkbox("Show Pricecatcher Dataset"):
+    st.write(pricecatcher.head())
+
+if st.checkbox("Show Lookup Premise Dataset"):
+    st.write(lookup_premise.head())
+
+if st.checkbox("Show Income Data"):
+    st.write(income_data.head())
+
+if st.checkbox("Show District Data"):
+    st.write(district_data.head())
+
+
 # Sidebar filters
 st.sidebar.header("Filters")
 selected_district = st.sidebar.multiselect(
