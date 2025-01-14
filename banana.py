@@ -102,7 +102,7 @@ plt.tight_layout()
 st.pyplot(fig)
 
 else:
-    print("The dataset does not include a 'date' column.")
+    st.error("The dataset does not include a 'date' column.")
 
 # Price Distribution
 st.subheader("Distribution of Item Prices")
