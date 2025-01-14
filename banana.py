@@ -227,37 +227,43 @@ predicted_prices = {}
 
 # Assuming you have district_predictions and district_price_perak
 
-# Create a DataFrame for plotting
-plot_data = pd.DataFrame({
-    'District': district_predictions.keys(),
-    'Predicted Price': district_predictions.values(),
-    'Actual Price': district_price_perak['item_price'].values  # Assuming district order is the same
+district_predictions = {
+    "Muallim": 6.08,
+    " Perak Tengah ": 6.30,
+    "Kerian ": 6.50,
+    "Kinta":6.50,
+    "Hulu Perak":6.73,
+    "Manjung":6.30,
+    "Kuala Kangsar":6.21,
+    "Larut Matang & Selama":6.34,
+    "Hilir Perak" :7.46,
+    "Batang Padang":6.30,
+}
+district_price_perak = pd.DataFrame({
+    'district': ["Muallim", "Perak Tengah", "Kerian","Kinta","Hulu Perak","Manjung","Kuala Kangsar","Larut Matang & Selama","Hilir Perak","Batang Padang"],
+    'item_price': [7.46, 6.50,6.89,6.73,6.50,6.34,6.30,6.21,6.09,6.08]
 })
 
-# Melt the DataFrame for easier plotting with seaborn
-plot_data_melted = pd.melt(plot_data, id_vars=['District'], var_name='Price Type', value_name='Price')
-
-# Create the bar plot
-plt.figure(figsize=(12, 6))
-sns.barplot(x='District', y='Price', hue='Price Type', data=plot_data_melted)
-plt.xticks(rotation=45, ha='right')
-plt.title('Actual vs. Predicted Average Prices by District in Perak')
-plt.ylabel('Average Price (RM)')
-plt.tight_layout()
-plt.show()
-
+if set(district_predictions.keys()) != set(district_price_perak['district']):
+    st.error("District names do not match between predictions and actual prices!")
+else:
+    # Create a DataFrame for plotting
+    plot_data = pd.DataFrame({
+        'District': list(district_predictions.keys()),
+        'Predicted Price': list(district_predictions.values()),
+        'Actual Price': district_price_perak['item_price'].values
+    })
 
 plot_data_melted = pd.melt(plot_data, id_vars=['District'], var_name='Price Type', value_name='Price')
 plt.figure(figsize=(12, 6))
-sns.barplot(x='District', y='Price', hue='Price Type', data=plot_data_melted)
-plt.xticks(rotation=45, ha='right')
-plt.title('Actual vs. Predicted Average Prices by District in Perak')
-plt.ylabel('Average Price (RM)')
-plt.tight_layout()
-plt.show()
+    sns.barplot(x='District', y='Price', hue='Price Type', data=plot_data_melted)
+    plt.xticks(rotation=45, ha='right')
+    plt.title('Actual vs. Predicted Average Prices by District in Perak')
+    plt.ylabel('Average Price (RM)')
+    plt.tight_layout()
 
-
-
+    # Show the plot in Streamlit
+    st.pyplot(plt)
 
 # Create a DataFrame for plotting
 plot_data = pd.DataFrame({
