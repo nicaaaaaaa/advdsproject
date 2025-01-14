@@ -76,12 +76,6 @@ selected_district = st.sidebar.multiselect(
 )
 filtered_data = merged_data_perak[merged_data_perak['district'].isin(selected_district)]
 
-# Combine all the datasets into one DataFrame
-pricecatcher_combined = pd.concat(
-    [pricecatcher_jan, pricecatcher_feb, pricecatcher_mar, pricecatcher_apr, pricecatcher_may, pricecatcher_june],
-    ignore_index=True
-)
-
 # Price Trend Graph
 st.subheader("Price Trend of Pisang Berangan Over Time")
 price_trend = filtered_data.groupby('date')['item_price'].mean().reset_index()
