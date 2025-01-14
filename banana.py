@@ -300,17 +300,6 @@ else:
     # One-hot encoding of districts
     district_encoded = pd.get_dummies(district_price_sorted['district'], prefix='district')
     district_price_sorted = pd.concat([district_price_sorted.reset_index(drop=True), district_encoded], axis=1)
-    
-# Define features and target
-X = district_price_perak.drop(['district', 'item_price'], axis=1)
-y = district_price_perak['item_price']
-
-# Train-test split
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
-# Model training
-model =  DecisionTreeRegressor()
-model.fit(X_train, y_train)
 
 # Predictions and evaluation
 y_pred = model.predict(X_test)
