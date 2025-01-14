@@ -360,7 +360,7 @@ st.subheader("Summary Statistics by District")
 st.write(district_summary)
 
 
-st.title Prescriptive Analysis  
+st.title ("Prescriptive Analysis")  
 st.markdown("""
 ## Prescriptive Analysis  
 -Supply chains disrupstion
