@@ -7,7 +7,7 @@ from scipy.stats import skew, kurtosis
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error, r2_score
-from skelearn.tree import DecisionTreeRegressor
+from sklearn.tree import DecisionTreeRegressor
 from sklearn.model_selection import train_test_split
 
 
