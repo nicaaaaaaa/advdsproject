@@ -231,7 +231,7 @@ plot_data = pd.DataFrame({
 # Assuming you have district_predictions and district_price_perak
 
 # Create a DataFrame for plotting
-plot_data = pd.DataFrame({
+plot_data := pd.DataFrame({
     'District': district_predictions.keys(),
     'Predicted Price': district_predictions.values(),
     'Actual Price': district_price_perak['item_price'].values  # Assuming district order is the same
