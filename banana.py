@@ -225,17 +225,17 @@ predicted_prices = {}
 
 
 
-# Assuming you have district_predictions and district_price_perak
-#district_predictions = {
- #   "District A": 150,
-  #  "District B": 200,
-   # "District C": 250
-#}
+#Assuming you have district_predictions and district_price_perak
+district_predictions = {
+    "District A": 150,
+    "District B": 200,
+    "District C": 250
+}
 
-#district_price_perak = pd.DataFrame({
- #   'district': ["District A", "District B", "District C"],
-  #  'item_price': [140, 195, 245]
-#})
+district_price_perak = pd.DataFrame({
+    'district': ["District A", "District B", "District C"],
+    'item_price': [140, 195, 245]
+})
 
 
 
