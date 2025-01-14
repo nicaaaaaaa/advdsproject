@@ -76,6 +76,23 @@ selected_district = st.sidebar.multiselect(
 )
 filtered_data = merged_data_perak[merged_data_perak['district'].isin(selected_district)]
 
+# Descriptive statistics for item prices in the merged dataset
+st.subheader("Descriptive Statistics for Item Prices (Overall)")
+overall_stats = merged_data['item_price'].describe()
+st.write(overall_stats)
+
+# Count unique items and premises
+st.subheader("Number of Unique Items and Premises")
+unique_items = merged_data['item_code'].nunique()
+unique_premises = merged_data['premise_code'].nunique()
+st.write(f"Unique Items: {unique_items}")
+st.write(f"Unique Premises: {unique_premises}")
+
+# Descriptive statistics for Perak-specific data
+st.subheader("Descriptive Statistics for Item Prices in Perak")
+perak_stats = merged_data_perak['item_price'].describe()
+st.write(perak_stats)
+
 # Price Trend Graph
 st.subheader("Price Trend of Pisang Berangan Over Time")
 price_trend = filtered_data.groupby('date')['item_price'].mean().reset_index()
