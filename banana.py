@@ -225,8 +225,8 @@ predicted_prices = {}
 
 # Assuming you have district_predictions and district_price_perak
 plot_data = pd.DataFrame({
-import matplotlib.pyplot as plt
-import seaborn as sns
+#import matplotlib.pyplot as plt
+#import seaborn as sns
 
 # Assuming you have district_predictions and district_price_perak
 
