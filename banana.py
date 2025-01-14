@@ -110,18 +110,21 @@ plt.xticks(rotation=45, ha='right')
 plt.tight_layout()
 st.pyplot(fig)
 
-# Price Trend Over Time
-st.subheader("Price Trend Over Six Months")
-price_trend = filtered_data.groupby('date')['item_price'].mean().reset_index()
-fig, ax = plt.subplots(figsize=(12, 6))
-sns.lineplot(data=price_trend, x='date', y='item_price', marker='o', color='green', ax=ax)
-ax.set_title('Average Pisang Berangan Price Trend (6 Months)', fontsize=16)
-ax.set_xlabel('Date', fontsize=12)
-ax.set_ylabel('Average Price (RM)', fontsize=12)
-ax.grid(visible=True, which='both', linestyle='--', linewidth=0.5, alpha=0.7)
-plt.xticks(rotation=45)
-plt.tight_layout()
-st.pyplot(fig)
+# Average Price by Premise Type
+st.subheader("Average Price by Premise Type")
+
+# Ensure the dataset includes a 'date' column and format it
+if 'date' in pricecatcher_combined.columns:
+    pricecatcher_combined['date'] = pd.to_datetime(pricecatcher_combined['date'], format='%d/%m/%Y')
+
+    # Group by date and calculate the mean price
+    price_trend = pricecatcher_combined.groupby('date')['price'].mean().reset_index()
+
+    # Streamlit line plot
+    st.write("### Average Price Trend Over Six Months")
+    st.line_chart(data=price_trend.set_index('date'), use_container_width=True)
+else:
+    st.error("The dataset does not include a 'date' column.")
 
 # Descriptive Statistics
 st.subheader("Descriptive Statistics")
