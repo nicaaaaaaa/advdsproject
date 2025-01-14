@@ -225,8 +225,9 @@ predicted_prices = {}
 
 # Assuming you have district_predictions and district_price_perak
 plot_data = pd.DataFrame({
-     'District': list(district_predictions.keys()),
-     'Predicted Price': list(district_predictions.values()),
+st.write("Type of district_predictions:", type(district_predictions))
+st.write("Contents of district_predictions:", district_predictions)
+
     'Actual Price': district_price_perak['item_price'].values 
 })
 
