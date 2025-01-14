@@ -138,7 +138,7 @@ def load_data():
     return district_price_perak
    
 # Load data
-ddistrict_price_perak = load_data()
+district_price_perak = load_data()
 
 # Encode districts using one-hot encoding
 district_encoded = pd.get_dummies(district_price_perak['district'], prefix='district')
