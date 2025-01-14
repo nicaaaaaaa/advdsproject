@@ -50,7 +50,9 @@ merged_data = load_data()
 merged_data_perak = merged_data[merged_data['state'] == 'Perak']
 
 # Streamlit app
-st.title("Pisang Berangan Price Data for Perak")
+st.markdown("""
+## Pisang Berangan Price Data for Perak
+""")
 st.write("This is the filtered dataset containing price data for Perak state.")
 
 # Show the dataset for Perak
