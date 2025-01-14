@@ -28,24 +28,6 @@ def load_data():
     lookup_premise = pd.read_csv('https://raw.githubusercontent.com/nicaaaaaaa/advdsproject/refs/heads/main/lookup_premise.csv')
     income_data = pd.read_csv('https://raw.githubusercontent.com/nicaaaaaaa/advdsproject/refs/heads/main/hh_income_state.csv')
     district_data = pd.read_csv('https://raw.githubusercontent.com/nicaaaaaaa/advdsproject/refs/heads/main/hies_district.csv')
-
-# Load data
-pricecatcher, lookup_premise, income_data, district_data = load_data()
-
-# Display dataframes
-if st.checkbox("Show Pricecatcher Dataset"):
-    st.write(pricecatcher.head())
-
-if st.checkbox("Show Lookup Premise Dataset"):
-    st.write(lookup_premise.head())
-
-if st.checkbox("Show Income Data"):
-    st.write(income_data.head())
-
-if st.checkbox("Show District Data"):
-    st.write(district_data.head())
-
-
     
     # Combine monthly datasets
     pricecatcher_combined = pd.concat(
