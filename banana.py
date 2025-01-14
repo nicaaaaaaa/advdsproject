@@ -10,6 +10,11 @@ from sklearn.metrics import mean_squared_error, r2_score
 
 # Streamlit app title and description
 st.title("Data Analysis for Pisang Berangan in Perak")
+st.markdown("""
+## objective
+- analyze the price trends of pisang berangan
+""")
+
 
 @st.cache_data
 def load_data():
