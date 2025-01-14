@@ -138,6 +138,54 @@ def load_district_data():
 # Load data
 district_price_perak = load_district_data()
 
+# Encode districts using one-hot encoding
+district_encoded = pd.get_dummies(district_price_perak['district'], prefix='district')
+district_encoded = district_encoded.reset_index(drop=True)
+district_price_perak = pd.concat([district_price_perak.reset_index(drop=True), district_encoded], axis=1)
+
+# Define features and target
+X = district_price_perak.drop(['district', 'item_price'], axis=1)
+y = district_price_perak['item_price']
+
+# Train the model
+model = LinearRegression()
+model.fit(X, y)
+
+# Sidebar for predictions
+st.sidebar.header("Prediction Input")
+selected_district = st.sidebar.selectbox("Select a District for Prediction", district_price_perak['district'].unique())
+
+# Prepare prediction input
+district_data = pd.DataFrame(0, index=[0], columns=X.columns)
+district_data[f'district_{selected_district}'] = 1
+
+# Predict the price for the selected district
+predicted_price = model.predict(district_data)[0]
+
+# Display prediction result
+st.subheader(f"Predicted Price for {selected_district} District")
+st.write(f"RM {predicted_price:.2f}")
+
+# Show all predictions
+st.subheader("Predicted Prices for All Districts")
+all_districts = district_price_perak['district'].unique()
+predicted_prices = {}
+
+for district in all_districts:
+    # Create input data for prediction
+    district_data = pd.DataFrame(0, index=[0], columns=X.columns)
+    district_data[f'district_{district}'] = 1
+    predicted_price = model.predict(district_data)[0]
+    predicted_prices[district] = predicted_price
+
+# Create a DataFrame to display predictions
+predicted_df = pd.DataFrame(list(predicted_prices.items()), columns=['District', 'Predicted Price'])
+st.write(predicted_df)
+
+# Plot predictions
+st.subheader("Prediction Visualization")
+st.bar_chart(predicted_df.set_index('District'))
+
 # One-hot encoding of districts
 district_encoded = pd.get_dummies(district_price_perak['district'], prefix='district')
 district_price_perak = pd.concat([district_price_perak.reset_index(drop=True), district_encoded], axis=1)
