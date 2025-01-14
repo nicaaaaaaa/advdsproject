@@ -83,6 +83,11 @@ filtered_data = merged_data_perak[merged_data_perak['district'].isin(selected_di
 # Streamlit app title
 st.title("Descriptive Analysis")
 
+# Descriptive statistics for item prices in the merged dataset
+st.subheader("Descriptive Statistics for Item Prices (Overall)")
+overall_stats = merged_data['item_price'].describe()
+st.write(overall_stats)
+
 # Descriptive statistics for Perak-specific data
 st.subheader("Descriptive Statistics for Pisang Berangan Prices in Perak")
 perak_stats = merged_data_perak['item_price'].describe()
