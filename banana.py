@@ -258,10 +258,6 @@ else:
         'Actual Price': district_price_perak['item_price'].values
     })
 
-
-
-
-
 district_price_perak = pd.DataFrame({
     'district': ["District A", "District B", "District C"],
     'item_price': [140, 195, 245]
