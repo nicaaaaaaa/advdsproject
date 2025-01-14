@@ -9,13 +9,9 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error, r2_score
 
 # Streamlit app title and description
-st.title("Pisang Berangan Price Analysis in Perak")
-st.markdown("""
-This app provides an analysis of Pisang Berangan prices across districts in Perak, Malaysia. 
-Explore price distributions, trends over time, and comparisons across different premises and districts.
-""")
+st.title("Data Analysis for Pisang Berangan in Perak")
 
-@st.cache
+@st.cache_load
 def load_data():
     # Load the datasets
     pricecatcher_jan = pd.read_csv('https://raw.githubusercontent.com/nicaaaaaaa/advdsproject/refs/heads/main/012024.csv')
