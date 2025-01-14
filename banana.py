@@ -11,7 +11,7 @@ from sklearn.metrics import mean_squared_error, r2_score
 # Streamlit app title and description
 st.title("Data Analysis for Pisang Berangan in Perak")
 
-@st.cache_load
+@st.cache_data
 def load_data():
     # Load the datasets
     pricecatcher_jan = pd.read_csv('https://raw.githubusercontent.com/nicaaaaaaa/advdsproject/refs/heads/main/012024.csv')
