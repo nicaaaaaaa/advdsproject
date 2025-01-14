@@ -368,6 +368,17 @@ st.markdown("""
 - Farmers must invest in protecting their crops from adverse weather condition.
 - To maintaining the farm, farmers are forced to raise banana prices.
 
+## Increased Cost for Maintainance
+- Farmers are raising banana prices to sustain their farms and ensure their livelihood.
+- Farmers need to invest in tying up banana trees to protect them from storms and adverse weather conditions.
+- Farmers face difficulties in maintaining an adequate workforce to manage the plantation, adding to the overall production costs.
+
+
+
+
+
+
+
 
 """)
 
