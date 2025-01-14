@@ -49,6 +49,22 @@ def load_data():
 merged_data = load_data()
 merged_data_perak = merged_data[merged_data['state'] == 'Perak']
 
+# Streamlit app
+st.title("Pisang Berangan Price Data for Perak")
+st.write("This is the filtered dataset containing price data for Perak state.")
+
+# Show the dataset for Perak
+st.write("### Merged Dataset for Perak")
+st.dataframe(merged_data_perak)
+
+# Allow user to download the filtered dataset
+st.download_button(
+    label="Download Perak Dataset as CSV",
+    data=merged_data_perak.to_csv(index=False),
+    file_name="merged_data_perak.csv",
+    mime="text/csv"
+)
+
 # Sidebar filters
 st.sidebar.header("Filters")
 selected_district = st.sidebar.multiselect(
