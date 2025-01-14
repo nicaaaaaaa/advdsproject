@@ -209,7 +209,7 @@ X = district_price_perak.drop(['district', 'item_price'], axis=1)
 y = district_price_perak['item_price']
 
 # Train the model
-model = DecisiomTreeRegression()
+model = DecisionTreeRegression()
 model.fit(X, y)
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
