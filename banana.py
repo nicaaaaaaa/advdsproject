@@ -82,34 +82,6 @@ pricecatcher_combined = pd.concat(
     ignore_index=True
 )
 
-
-@st.cache
-def load_data():
-    # Load datasets
-    pricecatcher_jan = pd.read_csv('https://raw.githubusercontent.com/nicaaaaaaa/advdsproject/refs/heads/main/012024.csv')
-    pricecatcher_feb = pd.read_csv('https://raw.githubusercontent.com/nicaaaaaaa/advdsproject/refs/heads/main/pc022024.csv')
-    pricecatcher_mar = pd.read_csv('https://raw.githubusercontent.com/nicaaaaaaa/advdsproject/refs/heads/main/032024.csv')
-    pricecatcher_apr = pd.read_csv('https://raw.githubusercontent.com/nicaaaaaaa/advdsproject/refs/heads/main/042024.csv')
-    pricecatcher_may = pd.read_csv('https://raw.githubusercontent.com/nicaaaaaaa/advdsproject/refs/heads/main/052024.csv')
-    pricecatcher_june = pd.read_csv('https://raw.githubusercontent.com/nicaaaaaaa/advdsproject/refs/heads/main/062024.csv')
-
-    # Combine into one DataFrame
-    combined_data = pd.concat(
-        [pricecatcher_jan, pricecatcher_feb, pricecatcher_mar, pricecatcher_apr, pricecatcher_may, pricecatcher_june],
-        ignore_index=True
-    )
-    return combined_data
-
-# Load data
-pricecatcher_combined = load_data()
-
-# Ensure the dataset includes a 'date' column and format it
-if 'date' in pricecatcher_combined.columns:
-    pricecatcher_combined['date'] = pd.to_datetime(pricecatcher_combined['date'], format='%d/%m/%Y')
-
-    # Group by date and calculate the mean price
-    price_trend = pricecatcher_combined.groupby('date')['price'].mean().reset_index()
-    
 # Price Trend Graph
 st.subheader("Price Trend of Pisang Berangan Over Time")
 price_trend = filtered_data.groupby('date')['item_price'].mean().reset_index()
@@ -121,12 +93,6 @@ ax.set_ylabel('Average Price (RM)', fontsize=12)
 plt.xticks(rotation=45)
 plt.tight_layout()
 st.pyplot(fig)
-
-# Streamlit line plot
-    st.write("### Average Price Trend Over Six Months")
-    st.line_chart(data=price_trend.set_index('date'), use_container_width=True)
-else:
-    st.error("The dataset does not include a 'date' column.")
 
 # Price Distribution
 st.subheader("Distribution of Item Prices")
