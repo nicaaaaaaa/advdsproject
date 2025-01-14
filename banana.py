@@ -28,6 +28,7 @@ def load_data():
     lookup_premise = pd.read_csv('https://raw.githubusercontent.com/nicaaaaaaa/advdsproject/refs/heads/main/lookup_premise.csv')
     income_data = pd.read_csv('https://raw.githubusercontent.com/nicaaaaaaa/advdsproject/refs/heads/main/hh_income_state.csv')
     district_data = pd.read_csv('https://raw.githubusercontent.com/nicaaaaaaa/advdsproject/refs/heads/main/hies_district.csv')
+    return pricecatcher_jan, pricecatcher_feb, pricecatcher_mar, pricecatcher_apr, pricecatcher_may, pricecatcher_jun, lookup_premise, income_data, district_data
     
     # Combine monthly datasets
     pricecatcher_combined = pd.concat(
@@ -61,16 +62,6 @@ if st.checkbox("Show Income Data"):
 
 if st.checkbox("Show District Data"):
     st.write(district_data.head())
-
-# Merge datasets
-pricecatcher_selected = pricecatcher[['premise_code', 'item_code', 'price']].rename(columns={'price': 'item_price'})
-lookup_premise_selected = lookup_premise[['premise_code', 'premise', 'premise_type', 'state', 'district']]
-merged_data = pd.merge(pricecatcher_selected, lookup_premise_selected, on='premise_code', how='inner')
-merged_data_perak = merged_data[merged_data['state'] == 'Perak']
-
-# Sidebar options
-st.sidebar.header("Filters")
-sort_order = st.sidebar.radio("Sort Districts By:", ("Ascending", "Descending"), index=1)
 
 
 # Sidebar filters
