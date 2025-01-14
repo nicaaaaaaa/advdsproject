@@ -301,6 +301,11 @@ else:
     district_encoded = pd.get_dummies(district_price_sorted['district'], prefix='district')
     district_price_sorted = pd.concat([district_price_sorted.reset_index(drop=True), district_encoded], axis=1)
 
+
+# Model training
+model =  DecisionTreeRegressor()
+model.fit(X_train, y_train)
+
 # Predictions and evaluation
 y_pred = model.predict(X_test)
 mse = mean_squared_error(y_test, y_pred)
