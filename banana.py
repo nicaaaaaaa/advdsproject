@@ -330,10 +330,20 @@ st.write(district_summary)
 # Streamlit app title
 st.title("Diagnostic Analysis")
 
+st.title("Banana Price Trends and Influencing Factors")
+
 st.markdown("""
-- **Point 1**: Explanation of the first point.
-- **Point 2**: Explanation of the second point.
-  - Sub-point 2.1: Details about sub-point.
-  - Sub-point 2.2: More details.
-- **Point 3**: Final point with explanation.
+## Impact of Ease of Cultivation on Banana Prices  
+- Bananas classified as easy to cultivate attract more farmers due to lower barriers and costs.  
+- Increased cultivation leads to higher market supply, potentially driving prices down.  
+- Challenges like diseases or adverse weather reduce supply, causing prices to rise.  
+
+## Supply and Demand Dynamics  
+- Excess supply leads to price decreases (basic economics).  
+- Reduced supply with steady or rising demand leads to price increases.  
+
+## Bananas in Malaysian Diets and Institutional Demand  
+- Bananas are a staple for children due to affordability and nutrition (potassium, vitamin C).  
+- Kindergartens and early education centers drive consistent demand through meal plans and bulk purchases, stabilizing the market.  
+- Seasonal variations and supply chain issues can still influence prices.  
 """)
