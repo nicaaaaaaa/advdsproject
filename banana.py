@@ -227,8 +227,9 @@ predicted_prices = {}
 plot_data = pd.DataFrame({
 st.write("Type of district_predictions:", type(district_predictions)),
   st.write("Contents of district_predictions:", district_predictions),
-
-    'Actual Price': district_price_perak['item_price'].values 
+    st.write("Actual Price :",district_price_perak['item_price'].values 
+}) )
+    
 })
 
 plot_data_melted = pd.melt(plot_data, id_vars=['District'], var_name='Price Type', value_name='Price')
