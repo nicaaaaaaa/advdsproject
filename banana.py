@@ -110,8 +110,18 @@ plt.xticks(rotation=45, ha='right')
 plt.tight_layout()
 st.pyplot(fig)
 
-# Average Price by Premise Type
-st.subheader("Average Price by Premise Type")
+# Combine into one DataFrame
+    combined_data = pd.concat(
+        [pricecatcher_jan, pricecatcher_feb, pricecatcher_mar, pricecatcher_apr, pricecatcher_may, pricecatcher_june],
+        ignore_index=True
+    )
+    return combined_data
+
+# Load data
+pricecatcher_combined = load_data()
+
+st.title("Six-Month Pisang Berangan Price Trend")
+st.write("This application visualizes the average Pisang Berangan price trend over six months.")
 
 # Ensure the dataset includes a 'date' column and format it
 if 'date' in pricecatcher_combined.columns:
