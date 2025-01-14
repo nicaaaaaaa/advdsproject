@@ -223,15 +223,12 @@ tree_model.fit(X_train, y_train)
 all_districts = district_price_perak['district'].unique()
 predicted_prices = {}
 
-# Assuming you have district_predictions and district_price_perak
-plot_data = pd.DataFrame({
-#import matplotlib.pyplot as plt
-#import seaborn as sns
+
 
 # Assuming you have district_predictions and district_price_perak
 
 # Create a DataFrame for plotting
-plot_data == pd.DataFrame({
+plot_data = pd.DataFrame({
     'District': district_predictions.keys(),
     'Predicted Price': district_predictions.values(),
     'Actual Price': district_price_perak['item_price'].values  # Assuming district order is the same
