@@ -192,7 +192,7 @@ def load_data():
         'district': ['Muallim', 'Perak Tengah', 'Kerian', 'Kinta', 'Hulu Perak', 
                      'Manjung', 'Kuala Kangsar', 'Larut, Matang & Selama', 
                      'Hilir Perak', 'Batang Padang'],
-        'item_price': [6.08, 6.09, 6.5, 6.89, 6.72, 6.30, 6.21, 6.34, 7.46, 7.19]
+        'item_price': [6.08, 6.30, 6.5, 6.89, 6.72, 6.30, 6.21, 6.34, 7.46, 6.30]
     })
     return district_price_perak
    
