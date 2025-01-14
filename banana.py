@@ -373,6 +373,12 @@ st.markdown("""
 - Farmers need to invest in tying up banana trees to protect them from storms and adverse weather conditions.
 - Farmers face difficulties in maintaining an adequate workforce to manage the plantation, adding to the overall production costs.
 
+## Disease Impact
+- Banana trees are affected by a serious disease caused by the Fusarium fungus, which is highly destructive to crops.
+- The disease attacks the roots and vascular system of banana plants, causing wilting, yellowing of leaves, and eventual plant death.
+- Farmers need to ensure that banana trees are well-fertilized, properly watered, and carefully managed to minimize the risk of infection.
+- Infected trees must be isolated from healthy ones to prevent the disease from spreading across the plantation.
+
 
 
 
