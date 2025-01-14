@@ -11,8 +11,8 @@ from sklearn.metrics import mean_squared_error, r2_score
 # Streamlit app title and description
 st.title("Data Analysis for Pisang Berangan in Perak")
 st.markdown("""
-## objective
-- analyze the price trends of pisang berangan
+## Objective
+- Analyze the price trends of pisang berangan
 """)
 
 
@@ -27,6 +27,22 @@ def load_data():
     pricecatcher_june = pd.read_csv('https://raw.githubusercontent.com/nicaaaaaaa/advdsproject/refs/heads/main/062024.csv')
     lookup_premise = pd.read_csv('https://raw.githubusercontent.com/nicaaaaaaa/advdsproject/refs/heads/main/lookup_premise.csv')
 
+# Load data
+pricecatcher, lookup_premise, income_data, district_data = load_data()
+
+    # Display dataframes
+    if st.checkbox("Show Pricecatcher Dataset"):
+        st.write(pricecatcher.head())
+    
+    if st.checkbox("Show Lookup Premise Dataset"):
+        st.write(lookup_premise.head())
+    
+    if st.checkbox("Show Income Data"):
+        st.write(income_data.head())
+    
+    if st.checkbox("Show District Data"):
+        st.write(district_data.head())
+    
     # Combine monthly datasets
     pricecatcher_combined = pd.concat(
         [pricecatcher_jan, pricecatcher_feb, pricecatcher_mar, pricecatcher_apr, pricecatcher_may, pricecatcher_june],
