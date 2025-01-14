@@ -122,6 +122,9 @@ plt.xticks(rotation=45)
 plt.tight_layout()
 st.pyplot(fig)
 
+# Streamlit line plot
+    st.write("### Average Price Trend Over Six Months")
+    st.line_chart(data=price_trend.set_index('date'), use_container_width=True)
 else:
     st.error("The dataset does not include a 'date' column.")
 
