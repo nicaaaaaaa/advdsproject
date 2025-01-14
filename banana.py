@@ -8,240 +8,111 @@ from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error, r2_score
 
-# Streamlit app title
-st.title("Data Analysis Dashboard")
+# Streamlit app title and description
+st.title("Pisang Berangan Price Analysis in Perak")
+st.markdown("""
+This app provides an analysis of Pisang Berangan prices across districts in Perak, Malaysia. 
+Explore price distributions, trends over time, and comparisons across different premises and districts.
+""")
 
-# Load datasets
-@st.cache_data
+@st.cache
 def load_data():
-    pricecatcher = pd.read_csv('https://raw.githubusercontent.com/nicaaaaaaa/advdsproject/refs/heads/main/012024.csv')
+    # Load the datasets
+    pricecatcher_jan = pd.read_csv('https://raw.githubusercontent.com/nicaaaaaaa/advdsproject/refs/heads/main/012024.csv')
+    pricecatcher_feb = pd.read_csv('https://raw.githubusercontent.com/nicaaaaaaa/advdsproject/refs/heads/main/pc022024.csv')
+    pricecatcher_mar = pd.read_csv('https://raw.githubusercontent.com/nicaaaaaaa/advdsproject/refs/heads/main/032024.csv')
+    pricecatcher_apr = pd.read_csv('https://raw.githubusercontent.com/nicaaaaaaa/advdsproject/refs/heads/main/042024.csv')
+    pricecatcher_may = pd.read_csv('https://raw.githubusercontent.com/nicaaaaaaa/advdsproject/refs/heads/main/052024.csv')
+    pricecatcher_june = pd.read_csv('https://raw.githubusercontent.com/nicaaaaaaa/advdsproject/refs/heads/main/062024.csv')
     lookup_premise = pd.read_csv('https://raw.githubusercontent.com/nicaaaaaaa/advdsproject/refs/heads/main/lookup_premise.csv')
-    income_data = pd.read_csv('https://raw.githubusercontent.com/nicaaaaaaa/advdsproject/refs/heads/main/hh_income_state.csv')
-    district_data = pd.read_csv('https://raw.githubusercontent.com/nicaaaaaaa/advdsproject/refs/heads/main/hies_district.csv')
-    return pricecatcher, lookup_premise, income_data, district_data
 
-# Load data
-pricecatcher, lookup_premise, income_data, district_data = load_data()
+    # Combine monthly datasets
+    pricecatcher_combined = pd.concat(
+        [pricecatcher_jan, pricecatcher_feb, pricecatcher_mar, pricecatcher_apr, pricecatcher_may, pricecatcher_june],
+        ignore_index=True
+    )
 
-# Display dataframes
-if st.checkbox("Show Pricecatcher Dataset"):
-    st.write(pricecatcher.head())
+    # Select columns and merge
+    pricecatcher_combined['date'] = pd.to_datetime(pricecatcher_combined['date'], format='%d/%m/%Y')
+    pricecatcher_selected = pricecatcher_combined[['premise_code', 'item_code', 'price', 'date']].rename(
+        columns={'price': 'item_price'}
+    )
+    lookup_premise_selected = lookup_premise[['premise_code', 'premise', 'premise_type', 'state', 'district']]
+    merged_data = pd.merge(pricecatcher_selected, lookup_premise_selected, on='premise_code', how='inner')
 
-if st.checkbox("Show Lookup Premise Dataset"):
-    st.write(lookup_premise.head())
+    return merged_data
 
-if st.checkbox("Show Income Data"):
-    st.write(income_data.head())
-
-if st.checkbox("Show District Data"):
-    st.write(district_data.head())
-
-# Merge datasets
-pricecatcher_selected = pricecatcher[['premise_code', 'item_code', 'price']].rename(columns={'price': 'item_price'})
-lookup_premise_selected = lookup_premise[['premise_code', 'premise', 'premise_type', 'state', 'district']]
-merged_data = pd.merge(pricecatcher_selected, lookup_premise_selected, on='premise_code', how='inner')
+# Load and filter the data
+merged_data = load_data()
 merged_data_perak = merged_data[merged_data['state'] == 'Perak']
-
-# Sidebar options
-st.sidebar.header("Filters")
-sort_order = st.sidebar.radio("Sort Districts By:", ("Ascending", "Descending"), index=1)
-
-# Analysis and Visualizations
-st.subheader("Average Price by District in Perak")
-district_price_perak = merged_data_perak.groupby('district')['item_price'].mean().reset_index().sort_values(by='item_price', ascending=False)
-
-fig, ax = plt.subplots(figsize=(12, 6))
-sns.barplot(data=district_price_perak, x='district', y='item_price', palette='viridis', ax=ax)
-plt.xticks(rotation=45, ha='right')
-plt.title('Average Price by District in Perak')
-st.pyplot(fig)
-
-# Load dataset 
-@st.cache_data
-def load_data():
-    # Replace these URLs with your dataset URLs or paths
-    pricecatcher = pd.read_csv('https://raw.githubusercontent.com/nicaaaaaaa/advdsproject/refs/heads/main/012024.csv')
-    lookup_premise = pd.read_csv('https://raw.githubusercontent.com/nicaaaaaaa/advdsproject/refs/heads/main/lookup_premise.csv')
-
-
-# Select and preprocess the datasets
-    pricecatcher_selected = pricecatcher[['premise_code', 'item_code', 'price']].copy()
-    pricecatcher_selected.rename(columns={'price': 'item_price'}, inplace=True)
-
-    lookup_premise_selected = lookup_premise[['premise_code', 'premise', 'premise_type', 'state', 'district']].copy()
-
-    # Merge datasets
-    merged_data = pd.merge(pricecatcher_selected, lookup_premise_selected, on=['premise_code'], how='inner')
-    
-    # Filter for Perak state
-    return merged_data[merged_data['state'] == 'Perak']
-
-# Load the data
-merged_data_perak = load_data()
-
-# Group and calculate average prices
-district_premise_price = merged_data_perak.groupby(['district', 'premise_type'])['item_price'].mean().reset_index()
 
 # Sidebar filters
 st.sidebar.header("Filters")
-district_filter = st.sidebar.multiselect(
-    "Select District(s):", 
-    options=district_premise_price['district'].unique(), 
-    default=district_premise_price['district'].unique()
+selected_district = st.sidebar.multiselect(
+    "Select Districts:",
+    options=merged_data_perak['district'].unique(),
+    default=merged_data_perak['district'].unique()
 )
+filtered_data = merged_data_perak[merged_data_perak['district'].isin(selected_district)]
 
-# Apply filters
-filtered_data = district_premise_price[district_premise_price['district'].isin(district_filter)]
-
-# Plot the data
-st.subheader("Bar Plot of Average Prices by Premise Type in Perak Districts")
-fig, ax = plt.subplots(figsize=(14, 8))
-sns.barplot(data=filtered_data, x='district', y='item_price', hue='premise_type', palette='viridis', ax=ax)
-ax.set_xticklabels(ax.get_xticklabels(), rotation=45, ha='right')
-ax.set_title('Average Price by Premise Type in Perak Districts', fontsize=16)
-ax.set_xlabel('District', fontsize=12)
-ax.set_ylabel('Average Price (RM)', fontsize=12)
-plt.tight_layout()
-
-# Display the plot
-st.pyplot(fig)
-
-# Load dataset 
-@st.cache_data
-def load_data():
-    pricecatcher = pd.read_csv('https://raw.githubusercontent.com/nicaaaaaaa/advdsproject/refs/heads/main/012024.csv')
-    lookup_premise = pd.read_csv('https://raw.githubusercontent.com/nicaaaaaaa/advdsproject/refs/heads/main/lookup_premise.csv')
-
-    # Select and preprocess the datasets
-    pricecatcher_selected = pricecatcher[['premise_code', 'item_code', 'price']].copy()
-    pricecatcher_selected.rename(columns={'price': 'item_price'}, inplace=True)
-
-    lookup_premise_selected = lookup_premise[['premise_code', 'premise', 'premise_type', 'state', 'district']].copy()
-
-    # Merge datasets
-    merged_data = pd.merge(pricecatcher_selected, lookup_premise_selected, on=['premise_code'], how='inner')
-    
-    # Filter for Perak state
-    return merged_data[merged_data['state'] == 'Perak']
-
-# Load the data
-merged_data_perak = load_data()
-
-# Sidebar filter: Number of bins
-st.sidebar.header("Histogram Settings")
-num_bins = st.sidebar.slider("Number of bins:", min_value=5, max_value=50, value=20, step=1)
-
-# Plot the distribution
-st.subheader("Histogram of Item Prices in Perak")
+# Price Distribution
+st.subheader("Distribution of Item Prices")
 fig, ax = plt.subplots(figsize=(8, 5))
-sns.histplot(merged_data_perak['item_price'], bins=num_bins, kde=True, color='blue', ax=ax)
-ax.set_title('Distribution of Pisan Berangan Prices in Perak', fontsize=16)
+sns.histplot(filtered_data['item_price'], bins=20, kde=True, color='blue', ax=ax)
+ax.set_title('Distribution of Pisang Berangan Prices in Perak', fontsize=16)
 ax.set_xlabel('Pisang Berangan (RM)', fontsize=12)
 ax.set_ylabel('Frequency', fontsize=12)
 plt.tight_layout()
-
-# Display the plot
 st.pyplot(fig)
 
-st.subheader("Price Distribution by District in Perak")
+# District-wise Price Analysis
+st.subheader("Average Price by District")
+district_price = filtered_data.groupby('district')['item_price'].mean().reset_index().sort_values(by='item_price', ascending=False)
 fig, ax = plt.subplots(figsize=(12, 6))
-sns.boxplot(data=merged_data_perak, x='district', y='item_price', palette='coolwarm', ax=ax)
+sns.barplot(data=district_price, x='district', y='item_price', palette='viridis', ax=ax)
+ax.set_title('Average Price by District in Perak', fontsize=16)
+ax.set_xlabel('District', fontsize=12)
+ax.set_ylabel('Average Price (RM)', fontsize=12)
 plt.xticks(rotation=45, ha='right')
-plt.title('Price Distribution by District in Perak')
+plt.tight_layout()
 st.pyplot(fig)
 
-# Descriptive statistics
-st.subheader("Descriptive Statistics for Item Prices in Perak")
-st.write(merged_data_perak['item_price'].describe())
-
-# Income analysis
-st.subheader("Income Analysis")
-st.write("Descriptive Statistics for Income")
-st.write(income_data['income_mean'].describe())
-
-# Income distribution
-fig, ax = plt.subplots(figsize=(8, 5))
-sns.histplot(income_data['income_mean'], bins=30, kde=True, color='blue', ax=ax)
-plt.title('Income Distribution')
+# Premise Type Analysis
+st.subheader("Average Price by Premise Type")
+premise_price = filtered_data.groupby(['district', 'premise_type'])['item_price'].mean().reset_index()
+fig, ax = plt.subplots(figsize=(14, 8))
+sns.barplot(data=premise_price, x='district', y='item_price', hue='premise_type', palette='viridis', ax=ax)
+ax.set_title('Average Price by Premise Type in Perak Districts', fontsize=16)
+ax.set_xlabel('District', fontsize=12)
+ax.set_ylabel('Average Price (RM)', fontsize=12)
+plt.xticks(rotation=45, ha='right')
+plt.tight_layout()
 st.pyplot(fig)
 
-fig, ax = plt.subplots(figsize=(8, 5))
-sns.boxplot(data=income_data, y='income_mean', color='orange', ax=ax)
-plt.title('Income Distribution (Boxplot)')
-st.pyplot(fig)
-
-# Skewness and kurtosis
-skewness = income_data['income_mean'].skew()
-kurt = income_data['income_mean'].kurt()
+# Skewness and Kurtosis
+st.subheader("Distribution Shape")
+skewness = filtered_data['item_price'].skew()
+kurt = filtered_data['item_price'].kurt()
 st.write(f"Skewness: {skewness:.2f}")
 st.write(f"Kurtosis: {kurt:.2f}")
 
-# Load datasets
-@st.cache_data
-def load_data():
-    pricecatcher = pd.read_csv('https://raw.githubusercontent.com/nicaaaaaaa/advdsproject/refs/heads/main/012024.csv')
-    lookup_premise = pd.read_csv('https://raw.githubusercontent.com/nicaaaaaaa/advdsproject/refs/heads/main/lookup_premise.csv')
-    return pricecatcher, lookup_premise
+# Price Trend Over Time
+st.subheader("Price Trend Over Six Months")
+price_trend = filtered_data.groupby('date')['item_price'].mean().reset_index()
+fig, ax = plt.subplots(figsize=(12, 6))
+sns.lineplot(data=price_trend, x='date', y='item_price', marker='o', color='green', ax=ax)
+ax.set_title('Average Pisang Berangan Price Trend (6 Months)', fontsize=16)
+ax.set_xlabel('Date', fontsize=12)
+ax.set_ylabel('Average Price (RM)', fontsize=12)
+ax.grid(visible=True, which='both', linestyle='--', linewidth=0.5, alpha=0.7)
+plt.xticks(rotation=45)
+plt.tight_layout()
+st.pyplot(fig)
 
-pricecatcher, lookup_premise = load_data()
+# Descriptive Statistics
+st.subheader("Descriptive Statistics")
+st.write(filtered_data['item_price'].describe())
 
-# Streamlit app title
-st.title("Price Analysis Dashboard")
-
-# Merge and preprocess data
-pricecatcher['date'] = pd.to_datetime(pricecatcher['date'], errors='coerce')
-pricecatcher_selected = pricecatcher[['premise_code', 'item_code', 'price', 'date']].copy()
-pricecatcher_selected.rename(columns={'price': 'item_price'}, inplace=True)
-lookup_premise_selected = lookup_premise[['premise_code', 'premise', 'premise_type', 'state', 'district']].copy()
-merged_data = pd.merge(pricecatcher_selected, lookup_premise_selected, on='premise_code', how='inner')
-
-# Filter data for Perak
-merged_data_perak = merged_data[merged_data['state'] == 'Perak']
-
-# Sidebar options
-st.sidebar.header("Filters")
-show_trend = st.sidebar.checkbox("Show Price Trend Over Time", True)
-show_urban_rural = st.sidebar.checkbox("Compare Urban vs Rural Prices", True)
-show_district_summary = st.sidebar.checkbox("Show District Summary", True)
-
-# Display filtered options
-if show_trend:
-    st.subheader("Average Pisang Berangan Price Trend Over Time")
-    price_trend = merged_data_perak.groupby('date')['item_price'].mean().reset_index()
-    fig, ax = plt.subplots(figsize=(10, 6))
-    sns.lineplot(data=price_trend, x='date', y='item_price', marker='o', color='green', ax=ax)
-    ax.set_title('Average Item Price Over Time', fontsize=16)
-    ax.set_xlabel('Date', fontsize=12)
-    ax.set_ylabel('Average Price (RM)', fontsize=12)
-    st.pyplot(fig)
-
-if show_urban_rural:
-    st.subheader("Average Prices by Premise Type")
-    urban_rural_prices = merged_data_perak.groupby('premise_type')['item_price'].mean().reset_index()
-    st.write(urban_rural_prices)
-    fig, ax = plt.subplots(figsize=(8, 5))
-    sns.barplot(data=urban_rural_prices, x='premise_type', y='item_price', palette='mako', ax=ax)
-    ax.set_title('Average Prices by Premise Type in Perak', fontsize=16)
-    ax.set_xlabel('Premise Type', fontsize=12)
-    ax.set_ylabel('Average Price (RM)', fontsize=12)
-    st.pyplot(fig)
-
-if show_district_summary:
-    st.subheader("Summary Statistics by District")
-    district_summary = merged_data_perak.groupby('district')['item_price'].describe()
-    st.write(district_summary)
-
-    # Boxplot for district price distribution
-    st.subheader("Price Distribution by District")
-    fig, ax = plt.subplots(figsize=(12, 6))
-    sns.boxplot(data=merged_data_perak, x='district', y='item_price', palette='coolwarm', ax=ax)
-    ax.set_xticklabels(ax.get_xticklabels(), rotation=45, ha='right')
-    ax.set_title('Price Distribution by District in Perak', fontsize=16)
-    ax.set_xlabel('District', fontsize=12)
-    ax.set_ylabel('Item Price (RM)', fontsize=12)
-    st.pyplot(fig)
-
-st.sidebar.info("Select the filters above to customize the dashboard view.")
 
 # Streamlit app title
 st.title("District Price Prediction Using Linear Regression")
