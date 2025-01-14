@@ -253,16 +253,16 @@ district_price_perak = pd.DataFrame({
 
 
 
-    # Melt the DataFrame for easier plotting with seaborn
-    plot_data_melted = pd.melt(plot_data, id_vars=['District'], var_name='Price Type', value_name='Price')
+# Melt the DataFrame for easier plotting with seaborn
+plot_data_melted = pd.melt(plot_data, id_vars=['District'], var_name='Price Type', value_name='Price')
 
-    # Create the bar plot
-    plt.figure(figsize=(12, 6))
-    sns.barplot(x='District', y='Price', hue='Price Type', data=plot_data_melted)
-    plt.xticks(rotation=45, ha='right')
-    plt.title('Actual vs. Predicted Average Prices by District in Perak')
-    plt.ylabel('Average Price (RM)')
-    plt.tight_layout()
+# Create the bar plot
+plt.figure(figsize=(12, 6))
+sns.barplot(x='District', y='Price', hue='Price Type', data=plot_data_melted)
+plt.xticks(rotation=45, ha='right')
+plt.title('Actual vs. Predicted Average Prices by District in Perak')
+plt.ylabel('Average Price (RM)')
+plt.tight_layout()
 # Show the plot in Streamlit
 st.pyplot(plt)
 
