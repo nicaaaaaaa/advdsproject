@@ -244,12 +244,10 @@ district_price_perak = pd.DataFrame({
     'item_price': [140, 195, 245]
 })
 
-
-
-
 if set(district_predictions.keys()) != set(district_price_perak['district']):
- else:
-     #Create a DataFrame for plotting
+    st.error("District names do not match between predictions and actual prices!")
+else:
+    # Create a DataFrame for plotting
     plot_data = pd.DataFrame({
         'District': list(district_predictions.keys()),
         'Predicted Price': list(district_predictions.values()),
