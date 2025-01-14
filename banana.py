@@ -227,7 +227,7 @@ predicted_prices = {}
 district_predictions_perak = {
     "Muallim": 6.08,
     "Perak Tengah": 6.30,
-    "Kerian"6.50,
+    "Kerian":6.50,
     "Kinta":6.89,
     "Hulu Perak":6.73,
     "Manjung":6.30,
