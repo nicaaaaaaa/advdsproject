@@ -209,7 +209,7 @@ X = district_price_perak.drop(['district', 'item_price'], axis=1)
 y = district_price_perak['item_price']
 
 # Train the model
-model = DescisionTreeRegressor()
+model = LinearRegression()
 model.fit(X, y)
 
 # Predict prices for all districts
