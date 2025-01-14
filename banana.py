@@ -229,7 +229,7 @@ predicted_prices = {}
 
 
 district_predictions = {
-    "Muallim": 6.08,
+    "District A": 6.08,
     "District B": 200,
     "District C": 250
 }
