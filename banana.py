@@ -49,9 +49,6 @@ def load_data():
 merged_data = load_data()
 merged_data_perak = merged_data[merged_data['state'] == 'Perak']
 
-# Load data
-pricecatcher, lookup_premise, income_data, district_data = load_data()
-
 # Display dataframes
 if st.checkbox("Show Pricecatcher Dataset"):
     st.write(pricecatcher.head())
