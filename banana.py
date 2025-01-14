@@ -379,6 +379,12 @@ st.markdown("""
 - Farmers need to ensure that banana trees are well-fertilized, properly watered, and carefully managed to minimize the risk of infection.
 - Infected trees must be isolated from healthy ones to prevent the disease from spreading across the plantation.
 
+## Pisang Berangan price Trend(Based on Manamurah.com)
+
+- Higher demand for bananas as gifts, offerings, and for festive consumption during Chinese New Year.
+- Delays in supply caused by worker holidays and seasonal issues, leading to reduced harvests and logistical challenges.
+- Wholesalers and retailers engage in market investing, anticipating higher demand, which contributes to price increases.
+
 
 
 
