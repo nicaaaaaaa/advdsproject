@@ -210,7 +210,7 @@ y = district_price_perak['item_price']
 
 # Train the model
 model = DescisionTreeRegressor()
- model.fit(X, y)
+model.fit(X, y)
 
 # Predict prices for all districts
 all_districts = district_price_perak['district'].unique()
