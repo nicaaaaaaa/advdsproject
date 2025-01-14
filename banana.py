@@ -228,6 +228,7 @@ plot_data = pd.DataFrame({
     'District': district_predictions.keys(),
     'Predicted Price': district_predictions.values(),
     'Actual Price': district_price_perak['item_price'].values 
+})
 
 plot_data_melted = pd.melt(plot_data, id_vars=['District'], var_name='Price Type', value_name='Price')
 plt.figure(figsize=(12, 6))
