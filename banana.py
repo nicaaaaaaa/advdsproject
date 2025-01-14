@@ -135,8 +135,8 @@ num_bins = st.sidebar.slider("Number of bins:", min_value=5, max_value=50, value
 st.subheader("Histogram of Item Prices in Perak")
 fig, ax = plt.subplots(figsize=(8, 5))
 sns.histplot(merged_data_perak['item_price'], bins=num_bins, kde=True, color='blue', ax=ax)
-ax.set_title('Distribution of Item Prices in Perak', fontsize=16)
-ax.set_xlabel('Item Price (RM)', fontsize=12)
+ax.set_title('Distribution of Pisan Berangan Prices in Perak', fontsize=16)
+ax.set_xlabel('Pisang Berangan (RM)', fontsize=12)
 ax.set_ylabel('Frequency', fontsize=12)
 plt.tight_layout()
 
@@ -206,7 +206,7 @@ show_district_summary = st.sidebar.checkbox("Show District Summary", True)
 
 # Display filtered options
 if show_trend:
-    st.subheader("Average Price Trend Over Time")
+    st.subheader("Average Pisang Berangan Price Trend Over Time")
     price_trend = merged_data_perak.groupby('date')['item_price'].mean().reset_index()
     fig, ax = plt.subplots(figsize=(10, 6))
     sns.lineplot(data=price_trend, x='date', y='item_price', marker='o', color='green', ax=ax)
