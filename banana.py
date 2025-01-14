@@ -105,6 +105,18 @@ plt.xticks(rotation=45, ha='right')
 plt.tight_layout()
 st.pyplot(fig)
 
+# Premise Type Analysis
+st.subheader("Average Price by Premise Type")
+premise_price = filtered_data.groupby(['district', 'premise_type'])['item_price'].mean().reset_index()
+fig, ax = plt.subplots(figsize=(14, 8))
+sns.barplot(data=premise_price, x='district', y='item_price', hue='premise_type', palette='viridis', ax=ax)
+ax.set_title('Average Price by Premise Type in Perak Districts', fontsize=16)
+ax.set_xlabel('District', fontsize=12)
+ax.set_ylabel('Average Price (RM)', fontsize=12)
+plt.xticks(rotation=45, ha='right')
+plt.tight_layout()
+st.pyplot(fig)
+
 # Price Distribution
 st.subheader("Distribution of Item Prices")
 fig, ax = plt.subplots(figsize=(8, 5))
@@ -124,18 +136,6 @@ ax.set_title('Pisang Berangan Price Trend (Perak)', fontsize=16)
 ax.set_xlabel('Date', fontsize=12)
 ax.set_ylabel('Average Price (RM)', fontsize=12)
 plt.xticks(rotation=45)
-plt.tight_layout()
-st.pyplot(fig)
-
-# Premise Type Analysis
-st.subheader("Average Price by Premise Type")
-premise_price = filtered_data.groupby(['district', 'premise_type'])['item_price'].mean().reset_index()
-fig, ax = plt.subplots(figsize=(14, 8))
-sns.barplot(data=premise_price, x='district', y='item_price', hue='premise_type', palette='viridis', ax=ax)
-ax.set_title('Average Price by Premise Type in Perak Districts', fontsize=16)
-ax.set_xlabel('District', fontsize=12)
-ax.set_ylabel('Average Price (RM)', fontsize=12)
-plt.xticks(rotation=45, ha='right')
 plt.tight_layout()
 st.pyplot(fig)
 
