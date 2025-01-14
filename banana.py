@@ -62,6 +62,16 @@ if st.checkbox("Show Income Data"):
 if st.checkbox("Show District Data"):
     st.write(district_data.head())
 
+# Merge datasets
+pricecatcher_selected = pricecatcher[['premise_code', 'item_code', 'price']].rename(columns={'price': 'item_price'})
+lookup_premise_selected = lookup_premise[['premise_code', 'premise', 'premise_type', 'state', 'district']]
+merged_data = pd.merge(pricecatcher_selected, lookup_premise_selected, on='premise_code', how='inner')
+merged_data_perak = merged_data[merged_data['state'] == 'Perak']
+
+# Sidebar options
+st.sidebar.header("Filters")
+sort_order = st.sidebar.radio("Sort Districts By:", ("Ascending", "Descending"), index=1)
+
 
 # Sidebar filters
 st.sidebar.header("Filters")
