@@ -76,6 +76,9 @@ selected_district = st.sidebar.multiselect(
 )
 filtered_data = merged_data_perak[merged_data_perak['district'].isin(selected_district)]
 
+# Streamlit app title
+st.title("Descriptive Analysis")
+
 # Descriptive statistics for Perak-specific data
 st.subheader("Descriptive Statistics for Pisang Berangan Prices in Perak")
 perak_stats = merged_data_perak['item_price'].describe()
