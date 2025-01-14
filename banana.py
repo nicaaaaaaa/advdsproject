@@ -239,7 +239,7 @@ district_price_perak = pd.DataFrame({
 
 
 
-})
+
 
 if set(district_predictions.keys()) != set(district_price_perak['district']):
     st.error("District names do not match between predictions and actual prices!")
