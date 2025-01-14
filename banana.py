@@ -245,8 +245,7 @@ plt.title('Actual vs. Predicted Average Prices by District in Perak')
 plt.ylabel('Average Price (RM)')
 plt.tight_layout()
 plt.show()
-    
-})
+
 
 plot_data_melted = pd.melt(plot_data, id_vars=['District'], var_name='Price Type', value_name='Price')
 plt.figure(figsize=(12, 6))
