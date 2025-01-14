@@ -363,10 +363,10 @@ st.write(district_summary)
 st.title ("Prescriptive Analysis")  
 st.markdown("""
 ## Supply Chains Disruption  
--Farmers are unable to harvest bananas due to external factors, particularly weather conditions.
--Banana farms are located in less strategic areas.
--Farmers must invest in protecting their crops from adverse weather condition.
--To maintaining the farm, farmers are forced to raise banana prices.
+- Farmers are unable to harvest bananas due to external factors, particularly weather conditions.
+- Banana farms are located in less strategic areas.
+- Farmers must invest in protecting their crops from adverse weather condition.
+- To maintaining the farm, farmers are forced to raise banana prices.
 
 
 """)
