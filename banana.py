@@ -229,13 +229,13 @@ predicted_prices = {}
 
 
 district_predictions = {
-    "District A": 150,
+    "Muallim": 6.08,
     "District B": 200,
     "District C": 250
 }
 district_price_perak = pd.DataFrame({
-    'district': ["District A", "District B", "District C"],
-    'item_price': [140, 195, 245]
+    'district': ["Muallim", "District B", "District C"],
+    'item_price': [6.08, 195, 245]
 })
 
 if set(district_predictions.keys()) != set(district_price_perak['district']):
