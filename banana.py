@@ -110,44 +110,59 @@ plt.xticks(rotation=45, ha='right')
 plt.tight_layout()
 st.pyplot(fig)
 
+import streamlit as st
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Function to load and combine datasets
 @st.cache
 def load_data():
-    # Load datasets
-    pricecatcher_jan = pd.read_csv('https://raw.githubusercontent.com/nicaaaaaaa/advdsproject/refs/heads/main/012024.csv')
-    pricecatcher_feb = pd.read_csv('https://raw.githubusercontent.com/nicaaaaaaa/advdsproject/refs/heads/main/pc022024.csv')
-    pricecatcher_mar = pd.read_csv('https://raw.githubusercontent.com/nicaaaaaaa/advdsproject/refs/heads/main/032024.csv')
-    pricecatcher_apr = pd.read_csv('https://raw.githubusercontent.com/nicaaaaaaa/advdsproject/refs/heads/main/042024.csv')
-    pricecatcher_may = pd.read_csv('https://raw.githubusercontent.com/nicaaaaaaa/advdsproject/refs/heads/main/052024.csv')
-    pricecatcher_june = pd.read_csv('https://raw.githubusercontent.com/nicaaaaaaa/advdsproject/refs/heads/main/062024.csv')
+    try:
+        # Load datasets
+        pricecatcher_jan = pd.read_csv('https://raw.githubusercontent.com/nicaaaaaaa/advdsproject/refs/heads/main/012024.csv')
+        pricecatcher_feb = pd.read_csv('https://raw.githubusercontent.com/nicaaaaaaa/advdsproject/refs/heads/main/pc022024.csv')
+        pricecatcher_mar = pd.read_csv('https://raw.githubusercontent.com/nicaaaaaaa/advdsproject/refs/heads/main/032024.csv')
+        pricecatcher_apr = pd.read_csv('https://raw.githubusercontent.com/nicaaaaaaa/advdsproject/refs/heads/main/042024.csv')
+        pricecatcher_may = pd.read_csv('https://raw.githubusercontent.com/nicaaaaaaa/advdsproject/refs/heads/main/052024.csv')
+        pricecatcher_june = pd.read_csv('https://raw.githubusercontent.com/nicaaaaaaa/advdsproject/refs/heads/main/062024.csv')
 
-    # Combine into one DataFrame
-    combined_data = pd.concat(
-        [pricecatcher_jan, pricecatcher_feb, pricecatcher_mar, pricecatcher_apr, pricecatcher_may, pricecatcher_june],
-        ignore_index=True
-    )
-    return combined_data
+        # Combine into one DataFrame
+        combined_data = pd.concat(
+            [pricecatcher_jan, pricecatcher_feb, pricecatcher_mar, pricecatcher_apr, pricecatcher_may, pricecatcher_june],
+            ignore_index=True
+        )
+        return combined_data
+    except Exception as e:
+        st.error(f"Error loading data: {e}")
+        return None
 
 # Load data
 pricecatcher_combined = load_data()
 
+# Title and description
 st.title("Six-Month Pisang Berangan Price Trend")
 st.write("This application visualizes the average Pisang Berangan price trend over six months.")
 
-# Ensure the dataset includes a 'date' column and format it
-if 'date' in pricecatcher_combined.columns:
-    pricecatcher_combined['date'] = pd.to_datetime(pricecatcher_combined['date'], format='%d/%m/%Y')
+# Check if data is loaded successfully
+if pricecatcher_combined is not None:
+    if 'date' in pricecatcher_combined.columns:
+        try:
+            # Convert 'date' to datetime format
+            pricecatcher_combined['date'] = pd.to_datetime(pricecatcher_combined['date'], format='%d/%m/%Y')
 
-    # Group by date and calculate the mean price
-    price_trend = pricecatcher_combined.groupby('date')['price'].mean().reset_index()
+            # Group by date and calculate the mean price
+            price_trend = pricecatcher_combined.groupby('date')['price'].mean().reset_index()
 
-    # Streamlit line plot
-    st.write("### Average Price Trend Over Six Months")
-    st.line_chart(data=price_trend.set_index('date'), use_container_width=True)
+            # Streamlit line plot
+            st.write("### Average Price Trend Over Six Months")
+            st.line_chart(data=price_trend.set_index('date'), use_container_width=True)
+        except Exception as e:
+            st.error(f"Error processing data: {e}")
+    else:
+        st.error("The dataset does not include a 'date' column.")
 else:
-    st.error("The dataset does not include a 'date' column.")
-# Descriptive Statistics
-st.subheader("Descriptive Statistics")
-st.write(filtered_data['item_price'].describe())
+    st.error("Failed to load data. Please check the data source.")
 
 
 # Streamlit app title
