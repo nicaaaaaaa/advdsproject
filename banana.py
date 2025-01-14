@@ -225,9 +225,29 @@ predicted_prices = {}
 
 # Assuming you have district_predictions and district_price_perak
 plot_data = pd.DataFrame({
-st.write("Type of district_predictions:", type(district_predictions)),
-  st.write("Contents of district_predictions:", district_predictions),
-    st.write("Actual Price :",district_price_perak['item_price'].values)
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Assuming you have district_predictions and district_price_perak
+
+# Create a DataFrame for plotting
+plot_data = pd.DataFrame({
+    'District': district_predictions.keys(),
+    'Predicted Price': district_predictions.values(),
+    'Actual Price': district_price_perak['item_price'].values  # Assuming district order is the same
+})
+
+# Melt the DataFrame for easier plotting with seaborn
+plot_data_melted = pd.melt(plot_data, id_vars=['District'], var_name='Price Type', value_name='Price')
+
+# Create the bar plot
+plt.figure(figsize=(12, 6))
+sns.barplot(x='District', y='Price', hue='Price Type', data=plot_data_melted)
+plt.xticks(rotation=45, ha='right')
+plt.title('Actual vs. Predicted Average Prices by District in Perak')
+plt.ylabel('Average Price (RM)')
+plt.tight_layout()
+plt.show()
     
 })
 
