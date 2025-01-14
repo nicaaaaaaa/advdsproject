@@ -262,8 +262,8 @@ plt.title('Actual vs. Predicted Average Prices by District in Perak')
 plt.ylabel('Average Price (RM)')
 plt.tight_layout()
 
-    # Show the plot in Streamlit
-    st.pyplot(plt)
+# Show the plot in Streamlit
+st.pyplot(plt)
 
 # Create a DataFrame for plotting
 plot_data = pd.DataFrame({
