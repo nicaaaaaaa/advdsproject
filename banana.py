@@ -181,7 +181,7 @@ elif factor == "Bananas in Malaysian Diets and Institutional Demand":
 # Streamlit app title
 st.title("Predictive Analysis")
 st.markdown("""
-## District Price Prediction Using Linear Regression
+## District Price Prediction Using Decision Tree Regression
 """)
 
 # Load district price data (replace with your source or data loading method)
