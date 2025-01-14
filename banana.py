@@ -252,10 +252,13 @@ district_price_perak = pd.DataFrame({
 })
 
 # Ensure that district_predictions and district_price_perak['item_price'] match
-if set(district_predictions.keys()) != set(district_price_perak['district']):
+clean_district_predictions = set(map(str.strip, district_predictions.keys()))
+clean_district_price_perak = set(map(str.strip, district_price_perak['district']))
+
+if clean_district_predictions != clean_district_price_perak:
     st.error("District names do not match between predictions and actual prices!")
 else:
-    # Create a DataFrame for plotting
+    # Proceed with plotting
     plot_data = pd.DataFrame({
         'District': list(district_predictions.keys()),
         'Predicted Price': list(district_predictions.values()),
