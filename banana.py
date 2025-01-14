@@ -208,14 +208,35 @@ district_price_perak = pd.concat([district_price_perak.reset_index(drop=True), d
 X = district_price_perak.drop(['district', 'item_price'], axis=1)
 y = district_price_perak['item_price']
 
-# Assuming you already have X, y, and your model setup
+# Split data into training and test sets
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Check the shapes of your train datasets
+print(X_train.shape)
+print(y_train.shape)
+
+# Ensure there are no missing values
+print(X_train.isnull().sum())
+print(y_train.isnull().sum())
+
+# Handle missing values if needed (example)
+X_train = X_train.fillna(X_train.mean())  # Impute missing values in features
+y_train = y_train.fillna(y_train.mean())  # Impute missing values in target
+
+# Check if all columns in X_train are numeric
+print(X_train.dtypes)
+
+# If necessary, apply one-hot encoding to categorical columns
+X_train = pd.get_dummies(X_train)
+
+# Check data consistency
+assert len(X_train) == len(y_train), "Mismatch between X_train and y_train samples"
 
 # Train the model
 tree_model = DecisionTreeRegressor(random_state=42)
 tree_model.fit(X_train, y_train)
 
-# Define district predictions (You can modify this as per your model's predictions)
+# Assuming you have district predictions and actual district price data
 district_predictions_perak = {
     "Muallim": 6.08,
     "Perak Tengah": 6.30,
@@ -278,7 +299,6 @@ else:
     # One-hot encoding of districts
     district_encoded = pd.get_dummies(district_price_perak['district'], prefix='district')
     district_price_perak = pd.concat([district_price_perak.reset_index(drop=True), district_encoded], axis=1)
-
 # Define features and target
 X = district_price_perak.drop(['district', 'item_price'], axis=1)
 y = district_price_perak['item_price']
