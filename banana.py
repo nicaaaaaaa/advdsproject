@@ -223,12 +223,42 @@ tree_model.fit(X_train, y_train)
 all_districts = district_price_perak['district'].unique()
 predicted_prices = {}
 
-for district in all_districts:
-    # Create input data for prediction
-    district_data = pd.DataFrame(0, index=[0], columns=X.columns)
-    district_data[f'district_{district}'] = 1
-    predicted_price = model.predict(district_data)[0]
-    predicted_prices[district] = predicted_price
+# Assuming you have district_predictions and district_price_perak
+plot_data = pd.DataFrame({
+    'District': district_predictions.keys(),
+    'Predicted Price': district_predictions.values(),
+    'Actual Price': district_price_perak['item_price'].values 
+
+plot_data_melted = pd.melt(plot_data, id_vars=['District'], var_name='Price Type', value_name='Price')
+plt.figure(figsize=(12, 6))
+sns.barplot(x='District', y='Price', hue='Price Type', data=plot_data_melted)
+plt.xticks(rotation=45, ha='right')
+plt.title('Actual vs. Predicted Average Prices by District in Perak')
+plt.ylabel('Average Price (RM)')
+plt.tight_layout()
+plt.show()
+
+
+
+
+# Create a DataFrame for plotting
+plot_data = pd.DataFrame({
+    'District': district_predictions.keys(),
+    'Predicted Price': district_predictions.values(),
+    'Actual Price': district_price_perak['item_price'].values  # Assuming district order is the same
+})
+
+# Melt the DataFrame for easier plotting with seaborn
+plot_data_melted = pd.melt(plot_data, id_vars=['District'], var_name='Price Type', value_name='Price')
+
+# Create the bar plot
+plt.figure(figsize=(12, 6))
+sns.barplot(x='District', y='Price', hue='Price Type', data=plot_data_melted)
+plt.xticks(rotation=45, ha='right')
+plt.title('Actual vs. Predicted Average Prices by District in Perak')
+plt.ylabel('Average Price (RM)')
+plt.tight_layout()
+plt.show()
 
 # Display predictions in the desired format
 st.subheader("Predicted Prices for All Districts")
