@@ -127,14 +127,16 @@ st.title("District Price Prediction Using Linear Regression")
 
 # Load district price data (replace with your source or data loading method)
 @st.cache_data
-def load_district_data():
-    # Sample DataFrame (replace with actual data loading code)
+def load_data():
+    # Example dataset (replace this with actual data source)
     district_price_perak = pd.DataFrame({
-        'district': ['A', 'B', 'C', 'D'],
-        'item_price': [15.5, 20.1, 13.2, 18.4]
+        'district': ['Muallim', 'Perak Tengah', 'Kerian', 'Kinta', 'Hulu Perak', 
+                     'Manjung', 'Kuala Kangsar', 'Larut, Matang & Selama', 
+                     'Hilir Perak', 'Batang Padang'],
+        'item_price': [6.08, 6.09, 6.5, 6.89, 6.72, 6.30, 6.21, 6.34, 7.46, 7.19]
     })
     return district_price_perak
-
+   
 # Load data
 district_price_perak = load_district_data()
 
@@ -151,23 +153,7 @@ y = district_price_perak['item_price']
 model = LinearRegression()
 model.fit(X, y)
 
-# Sidebar for predictions
-st.sidebar.header("Prediction Input")
-selected_district = st.sidebar.selectbox("Select a District for Prediction", district_price_perak['district'].unique())
-
-# Prepare prediction input
-district_data = pd.DataFrame(0, index=[0], columns=X.columns)
-district_data[f'district_{selected_district}'] = 1
-
-# Predict the price for the selected district
-predicted_price = model.predict(district_data)[0]
-
-# Display prediction result
-st.subheader(f"Predicted Price for {selected_district} District")
-st.write(f"RM {predicted_price:.2f}")
-
-# Show all predictions
-st.subheader("Predicted Prices for All Districts")
+# Predict prices for all districts
 all_districts = district_price_perak['district'].unique()
 predicted_prices = {}
 
@@ -178,12 +164,14 @@ for district in all_districts:
     predicted_price = model.predict(district_data)[0]
     predicted_prices[district] = predicted_price
 
-# Create a DataFrame to display predictions
-predicted_df = pd.DataFrame(list(predicted_prices.items()), columns=['District', 'Predicted Price'])
-st.write(predicted_df)
+# Display predictions in the desired format
+st.subheader("Predicted Prices for All Districts")
+for district, price in predicted_prices.items():
+    st.write(f"**Predicted price for {district} district:** RM {price:.2f}")
 
-# Plot predictions
+# Visualization: Bar chart
 st.subheader("Prediction Visualization")
+predicted_df = pd.DataFrame(list(predicted_prices.items()), columns=['District', 'Predicted Price'])
 st.bar_chart(predicted_df.set_index('District'))
 
 # One-hot encoding of districts
