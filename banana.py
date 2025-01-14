@@ -247,10 +247,8 @@ district_price_perak = pd.DataFrame({
 
 
 
-
 if set(district_predictions.keys()) != set(district_price_perak['district']):
- 
-else:
+ else:
      #Create a DataFrame for plotting
     plot_data = pd.DataFrame({
         'District': list(district_predictions.keys()),
