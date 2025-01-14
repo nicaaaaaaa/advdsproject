@@ -223,13 +223,20 @@ tree_model.fit(X_train, y_train)
 all_districts = district_price_perak['district'].unique()
 predicted_prices = {}
 
-
-
 #Assuming you have district_predictions and district_price_perak
-district_predictions = {
-    "District A": 150,
-    "District B": 200,
-    "District C": 250
+district_predictions_perak = {
+    "Muallim": 6.08,
+    "Perak Tengah": 6.30,
+    "Kerian"6.50,
+    "Kinta":6.89,
+    "Hulu Perak":6.73,
+    "Manjung":6.30,
+    "Kuala Kangsar":6.21,
+    "Larut Matang & Selama":6.34,
+    "Hilir Perak":7.46,
+    "Batang Padang":6.30,
+    
+    
 }
 
 district_price_perak = pd.DataFrame({
@@ -242,7 +249,7 @@ district_price_perak = pd.DataFrame({
 
 
 if set(district_predictions.keys()) != set(district_price_perak['district']):
-   st.error("District names do not match between predictions and actual prices!")
+ 
 else:
      #Create a DataFrame for plotting
     plot_data = pd.DataFrame({
