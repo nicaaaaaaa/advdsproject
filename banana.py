@@ -28,7 +28,6 @@ def load_data():
     lookup_premise = pd.read_csv('https://raw.githubusercontent.com/nicaaaaaaa/advdsproject/refs/heads/main/lookup_premise.csv')
     income_data = pd.read_csv('https://raw.githubusercontent.com/nicaaaaaaa/advdsproject/refs/heads/main/hh_income_state.csv')
     district_data = pd.read_csv('https://raw.githubusercontent.com/nicaaaaaaa/advdsproject/refs/heads/main/hies_district.csv')
-    return pricecatcher, lookup_premise, income_data, district_data
 
 # Load data
 pricecatcher, lookup_premise, income_data, district_data = load_data()
