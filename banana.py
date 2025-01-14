@@ -13,6 +13,7 @@ st.title("Data Analysis for Pisang Berangan in Perak")
 st.markdown("""
 ## Objective
 - Analyze the price trends of pisang berangan
+- Build predictive model to forecast future price trends
 """)
 
 
@@ -131,7 +132,54 @@ plt.tight_layout()
 st.pyplot(fig)
 
 # Streamlit app title
-st.title("District Price Prediction Using Linear Regression")
+st.title("Diagnostic Analysis")
+
+st.title("Banana Price Trends and Influencing Factors")
+
+st.markdown("""
+## Impact of Ease of Cultivation on Banana Prices  
+- Bananas classified as easy to cultivate attract more farmers due to lower barriers and costs.  
+- Increased cultivation leads to higher market supply, potentially driving prices down.  
+- Challenges like diseases or adverse weather reduce supply, causing prices to rise.  
+
+## Supply and Demand Dynamics  
+- Excess supply leads to price decreases (basic economics).  
+- Reduced supply with steady or rising demand leads to price increases.  
+
+## Bananas in Malaysian Diets and Institutional Demand  
+- Bananas are a staple for children due to affordability and nutrition (potassium, vitamin C).  
+- Kindergartens and early education centers drive consistent demand through meal plans and bulk purchases, stabilizing the market.  
+- Seasonal variations and supply chain issues can still influence prices.  
+""")
+
+factor = st.selectbox(
+    "Select a factor to explore:",
+    ["Impact of Ease of Cultivation", "Supply and Demand Dynamics", "Bananas in Malaysian Diets and Institutional Demand"]
+)
+
+if factor == "Impact of Ease of Cultivation":
+    st.write("""
+    - Bananas classified as easy to cultivate attract more farmers due to lower barriers and costs.  
+    - Increased cultivation leads to higher market supply, potentially driving prices down.  
+    - Challenges like diseases or adverse weather reduce supply, causing prices to rise.  
+    """)
+elif factor == "Supply and Demand Dynamics":
+    st.write("""
+    - Excess supply leads to price decreases (basic economics).  
+    - Reduced supply with steady or rising demand leads to price increases.  
+    """)
+elif factor == "Bananas in Malaysian Diets and Institutional Demand":
+    st.write("""
+    - Bananas are a staple for children due to affordability and nutrition (potassium, vitamin C).  
+    - Kindergartens and early education centers drive consistent demand through meal plans and bulk purchases, stabilizing the market.  
+    - Seasonal variations and supply chain issues can still influence prices.  
+    """)
+
+# Streamlit app title
+st.title("Predictive Analysis")
+st.markdown("""
+## District Price Prediction Using Linear Regression
+""")
 
 # Load district price data (replace with your source or data loading method)
 @st.cache_data
@@ -249,47 +297,3 @@ st.pyplot(fig)
 district_summary = merged_data_perak.groupby('district')['item_price'].describe()
 st.subheader("Summary Statistics by District")
 st.write(district_summary)
-
-# Streamlit app title
-st.title("Diagnostic Analysis")
-
-st.title("Banana Price Trends and Influencing Factors")
-
-st.markdown("""
-## Impact of Ease of Cultivation on Banana Prices  
-- Bananas classified as easy to cultivate attract more farmers due to lower barriers and costs.  
-- Increased cultivation leads to higher market supply, potentially driving prices down.  
-- Challenges like diseases or adverse weather reduce supply, causing prices to rise.  
-
-## Supply and Demand Dynamics  
-- Excess supply leads to price decreases (basic economics).  
-- Reduced supply with steady or rising demand leads to price increases.  
-
-## Bananas in Malaysian Diets and Institutional Demand  
-- Bananas are a staple for children due to affordability and nutrition (potassium, vitamin C).  
-- Kindergartens and early education centers drive consistent demand through meal plans and bulk purchases, stabilizing the market.  
-- Seasonal variations and supply chain issues can still influence prices.  
-""")
-
-factor = st.selectbox(
-    "Select a factor to explore:",
-    ["Impact of Ease of Cultivation", "Supply and Demand Dynamics", "Bananas in Malaysian Diets and Institutional Demand"]
-)
-
-if factor == "Impact of Ease of Cultivation":
-    st.write("""
-    - Bananas classified as easy to cultivate attract more farmers due to lower barriers and costs.  
-    - Increased cultivation leads to higher market supply, potentially driving prices down.  
-    - Challenges like diseases or adverse weather reduce supply, causing prices to rise.  
-    """)
-elif factor == "Supply and Demand Dynamics":
-    st.write("""
-    - Excess supply leads to price decreases (basic economics).  
-    - Reduced supply with steady or rising demand leads to price increases.  
-    """)
-elif factor == "Bananas in Malaysian Diets and Institutional Demand":
-    st.write("""
-    - Bananas are a staple for children due to affordability and nutrition (potassium, vitamin C).  
-    - Kindergartens and early education centers drive consistent demand through meal plans and bulk purchases, stabilizing the market.  
-    - Seasonal variations and supply chain issues can still influence prices.  
-    """)
