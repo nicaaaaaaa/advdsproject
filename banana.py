@@ -93,18 +93,6 @@ st.subheader("Descriptive Statistics for Pisang Berangan Prices in Perak")
 perak_stats = merged_data_perak['item_price'].describe()
 st.write(perak_stats)
 
-# Price Trend Graph
-st.subheader("Price Trend of Pisang Berangan Over Time")
-price_trend = filtered_data.groupby('date')['item_price'].mean().reset_index()
-fig, ax = plt.subplots(figsize=(12, 6))
-sns.lineplot(data=price_trend, x='date', y='item_price', marker='o', color='green', ax=ax)
-ax.set_title('Pisang Berangan Price Trend (Perak)', fontsize=16)
-ax.set_xlabel('Date', fontsize=12)
-ax.set_ylabel('Average Price (RM)', fontsize=12)
-plt.xticks(rotation=45)
-plt.tight_layout()
-st.pyplot(fig)
-
 # Price Distribution
 st.subheader("Distribution of Item Prices")
 fig, ax = plt.subplots(figsize=(8, 5))
@@ -124,6 +112,18 @@ ax.set_title('Average Price by District in Perak', fontsize=16)
 ax.set_xlabel('District', fontsize=12)
 ax.set_ylabel('Average Price (RM)', fontsize=12)
 plt.xticks(rotation=45, ha='right')
+plt.tight_layout()
+st.pyplot(fig)
+
+# Price Trend Graph
+st.subheader("Price Trend of Pisang Berangan Over Time")
+price_trend = filtered_data.groupby('date')['item_price'].mean().reset_index()
+fig, ax = plt.subplots(figsize=(12, 6))
+sns.lineplot(data=price_trend, x='date', y='item_price', marker='o', color='green', ax=ax)
+ax.set_title('Pisang Berangan Price Trend (Perak)', fontsize=16)
+ax.set_xlabel('Date', fontsize=12)
+ax.set_ylabel('Average Price (RM)', fontsize=12)
+plt.xticks(rotation=45)
 plt.tight_layout()
 st.pyplot(fig)
 
