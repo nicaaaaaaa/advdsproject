@@ -208,50 +208,39 @@ district_price_perak = pd.concat([district_price_perak.reset_index(drop=True), d
 X = district_price_perak.drop(['district', 'item_price'], axis=1)
 y = district_price_perak['item_price']
 
-#split model 
+# Assuming you already have X, y, and your model setup
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
 # Train the model
 tree_model = DecisionTreeRegressor(random_state=42)
 tree_model.fit(X_train, y_train)
 
-# Create and train the model
-tree_model = DecisionTreeRegressor(random_state=42)
-tree_model.fit(X_train, y_train)
-
-# Predict prices for all districts
-all_districts = district_price_perak['district'].unique()
-predicted_prices = {}
-
-#Assuming you have district_predictions and district_price_perak
+# Define district predictions (You can modify this as per your model's predictions)
 district_predictions_perak = {
     "Muallim": 6.08,
     "Perak Tengah": 6.30,
-    "Kerian":6.50,
-    "Kinta":6.89,
-    "Hulu Perak":6.73,
-    "Manjung":6.30,
-    "Kuala Kangsar":6.21,
-    "Larut Matang & Selama":6.34,
-    "Hilir Perak":7.46,
-    "Batang Padang":6.30,
-    
-    
+    "Kerian": 6.50,
+    "Kinta": 6.89,
+    "Hulu Perak": 6.73,
+    "Manjung": 6.30,
+    "Kuala Kangsar": 6.21,
+    "Larut Matang & Selama": 6.34,
+    "Hilir Perak": 7.46,
+    "Batang Padang": 6.30
 }
+
+# Define the district price DataFrame
 district_price_perak = pd.DataFrame({
     'district': ['Muallim', 'Perak Tengah', 'Kerian', 'Kinta', 'Hulu Perak', 
-                    'Manjung', 'Kuala Kangsar', 'Larut, Matang & Selama', 
-                    'Hilir Perak', 'Batang Padang'],
+                 'Manjung', 'Kuala Kangsar', 'Larut, Matang & Selama', 
+                 'Hilir Perak', 'Batang Padang'],
     'item_price': [6.08, 6.30, 6.5, 6.89, 6.72, 6.30, 6.21, 6.34, 7.46, 6.30]
 })
 
+# Ensure no district mismatch between predictions and actual data
+district_predictions = district_predictions_perak  # Use the correct dictionary
 
-district_price_perak = pd.DataFrame({
-    'district': ["District A", "District B", "District C"],
-    'item_price': [140, 195, 245]
-})
-
-
+# Check for consistency between district names
 if set(district_predictions.keys()) != set(district_price_perak['district']):
     st.error("District names do not match between predictions and actual prices!")
 else:
@@ -262,51 +251,33 @@ else:
         'Actual Price': district_price_perak['item_price'].values
     })
 
-# Melt the DataFrame for easier plotting with seaborn
-plot_data_melted = pd.melt(plot_data, id_vars=['District'], var_name='Price Type', value_name='Price')
+    # Melt the DataFrame for easier plotting with seaborn
+    plot_data_melted = pd.melt(plot_data, id_vars=['District'], var_name='Price Type', value_name='Price')
 
-# Create the bar plot
-plt.figure(figsize=(12, 6))
-sns.barplot(x='District', y='Price', hue='Price Type', data=plot_data_melted)
-plt.xticks(rotation=45, ha='right')
-plt.title('Actual vs. Predicted Average Prices by District in Perak')
-plt.ylabel('Average Price (RM)')
-plt.tight_layout()
-# Show the plot in Streamlit
-st.pyplot(plt)
+    # Create the bar plot
+    plt.figure(figsize=(12, 6))
+    sns.barplot(x='District', y='Price', hue='Price Type', data=plot_data_melted)
+    plt.xticks(rotation=45, ha='right')
+    plt.title('Actual vs. Predicted Average Prices by District in Perak')
+    plt.ylabel('Average Price (RM)')
+    plt.tight_layout()
 
-# Create a DataFrame for plotting
-plot_data = pd.DataFrame({
-    'District': district_predictions.keys(),
-    'Predicted Price': district_predictions.values(),
-    'Actual Price': district_price_perak['item_price'].values  # Assuming district order is the same
-})
+    # Show the plot in Streamlit
+    st.pyplot(plt)
 
-# Melt the DataFrame for easier plotting with seaborn
-plot_data_melted = pd.melt(plot_data, id_vars=['District'], var_name='Price Type', value_name='Price')
+    # Display predictions in the desired format
+    st.subheader("Predicted Prices for All Districts")
+    for district, price in district_predictions.items():
+        st.write(f"**Predicted price for {district} district:** RM {price:.2f}")
 
-# Create the bar plot
-plt.figure(figsize=(12, 6))
-sns.barplot(x='District', y='Price', hue='Price Type', data=plot_data_melted)
-plt.xticks(rotation=45, ha='right')
-plt.title('Actual vs. Predicted Average Prices by District in Perak')
-plt.ylabel('Average Price (RM)')
-plt.tight_layout()
-plt.show()
+    # Visualization: Bar chart
+    st.subheader("Prediction Visualization")
+    predicted_df = pd.DataFrame(list(district_predictions.items()), columns=['District', 'Predicted Price'])
+    st.bar_chart(predicted_df.set_index('District'))
 
-# Display predictions in the desired format
-st.subheader("Predicted Prices for All Districts")
-for district, price in predicted_prices.items():
-    st.write(f"**Predicted price for {district} district:** RM {price:.2f}")
-
-# Visualization: Bar chart
-st.subheader("Prediction Visualization")
-predicted_df = pd.DataFrame(list(predicted_prices.items()), columns=['District', 'Predicted Price'])
-st.bar_chart(predicted_df.set_index('District'))
-
-# One-hot encoding of districts
-district_encoded = pd.get_dummies(district_price_perak['district'], prefix='district')
-district_price_perak = pd.concat([district_price_perak.reset_index(drop=True), district_encoded], axis=1)
+    # One-hot encoding of districts
+    district_encoded = pd.get_dummies(district_price_perak['district'], prefix='district')
+    district_price_perak = pd.concat([district_price_perak.reset_index(drop=True), district_encoded], axis=1)
 
 # Define features and target
 X = district_price_perak.drop(['district', 'item_price'], axis=1)
