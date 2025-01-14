@@ -110,13 +110,6 @@ plt.xticks(rotation=45, ha='right')
 plt.tight_layout()
 st.pyplot(fig)
 
-# Skewness and Kurtosis
-st.subheader("Distribution Shape")
-skewness = filtered_data['item_price'].skew()
-kurt = filtered_data['item_price'].kurt()
-st.write(f"Skewness: {skewness:.2f}")
-st.write(f"Kurtosis: {kurt:.2f}")
-
 # Price Trend Over Time
 st.subheader("Price Trend Over Six Months")
 price_trend = filtered_data.groupby('date')['item_price'].mean().reset_index()
