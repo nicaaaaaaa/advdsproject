@@ -185,7 +185,7 @@ def load_data():
         'district': ['Muallim', 'Perak Tengah', 'Kerian', 'Kinta', 'Hulu Perak', 
                      'Manjung', 'Kuala Kangsar', 'Larut, Matang & Selama', 
                      'Hilir Perak', 'Batang Padang','Bagan Datuk'],
-        'item_price': [6.89, 6.71, 6.67, 6.40, 6.05, 6.03, 6.33, 6.07, 6.17, 6.10,6.03]
+        'item_price': [6.89, 6.71, 6.67, 6.40, 6.05, 6.03, 6.33, 6.07, 6.17, 6.10,4.0]
     })
     return district_price_perak
    
@@ -308,22 +308,26 @@ r2 = r2_score(y_test, y_pred)
 # Display evaluation metrics
 st.subheader("Model Evaluation")
 st.write(f"Mean Squared Error: {mse:.2f}")
-st.write(f"R-squared: {r2:.2f}")
 
-# Prediction for all districts
-st.subheader("Predicted Prices for Districts")
-all_districts = district_price_perak['district'].unique()
-predicted_prices = {}
+import pandas as pd
+from sklearn.tree import DecisionTreeRegressor
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import mean_squared_error
 
-for district in all_districts:
-    # Create input data for prediction
-    district_data = pd.DataFrame(0, index=[0], columns=X.columns)
-    district_data[f'district_{district}'] = 1
-    predicted_price = model.predict(district_data)[0]
-    predicted_prices[district] = predicted_price
+.
+# Get predictions for all districts in Perak
+all_districts = district_average_prices_perak['district'].unique()
+all_districts_encoded = pd.get_dummies(pd.DataFrame({'district': all_districts}), columns=['district'], drop_first=True)
+predicted_prices_all = model.predict(all_districts_encoded)
 
-# Display predicted prices
-predicted_df = pd.DataFrame(list(predicted_prices.items()), columns=['District', 'Predicted Price'])
+# Create a DataFrame with actual and predicted prices
+results_df = pd.DataFrame({'district': all_districts,
+                           'actual_price': district_average_prices_perak['item_price'],
+                           'predicted_price': predicted_prices_all})
+
+# Print the results
+print(results_df)
+
 st.write(predicted_df)
 
 # Visualization: Actual vs. Predicted Prices
