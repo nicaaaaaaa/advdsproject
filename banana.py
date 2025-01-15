@@ -194,16 +194,21 @@ with st.expander("References"):
     """)
 
 st.markdown("""
+<style>
+.hover-link {
+    color: blue;
+    text-decoration: underline;
+}
+.hover-link:hover {
+    color: red;
+}
+</style>
+
 ### References
+- <a href="https://github.com/nicaaaaaaa/advdsproject" class="hover-link">GitHub Repository</a>
+- <a href="https://streamlit.io" class="hover-link">Streamlit Documentation</a>
+""", unsafe_allow_html=True)
 
-#### 📂 Dataset Sources
-- [January Dataset](https://raw.githubusercontent.com/nicaaaaaaa/advdsproject/refs/heads/main/012024.csv)
-- [February Dataset](https://raw.githubusercontent.com/nicaaaaaaa/advdsproject/refs/heads/main/pc022024.csv)
-
-#### 🛠️ Tools
-- [Streamlit Documentation](https://docs.streamlit.io/)
-- [Seaborn Documentation](https://seaborn.pydata.org/)
-""")
 
 
 # Streamlit app title
