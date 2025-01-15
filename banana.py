@@ -231,17 +231,17 @@ tree_model.fit(X_train, y_train)
 
 # Assuming you have district predictions and actual district price data
 district_predictions_perak = {
-    "Muallim": 6.08,
-    "Perak Tengah": 6.30,
-    "Kerian": 6.50,
-    "Kinta": 6.89,
-    "Hulu Perak": 6.73,
-    "Manjung": 6.30,
-    "Kuala Kangsar": 6.21,
-    "Larut, Matang & Selama": 6.34,
-    "Hilir Perak": 7.46,
-    "Batang Padang": 6.30,
-    "Bagan Datuk":4.0
+    "Muallim": 6.03,
+    "Perak Tengah": 6.71,
+    "Kerian": 6.67,
+    "Kinta": 6.03,
+    "Hulu Perak": 6.05,
+    "Manjung": 6.03,
+    "Kuala Kangsar": 6.33,
+    "Larut, Matang & Selama": 6.07,
+    "Hilir Perak": 6.17,
+    "Batang Padang": 6.10,
+    "Bagan Datuk":6.03
 }
 
 # Define the district price DataFrame
