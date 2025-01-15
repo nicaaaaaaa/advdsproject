@@ -183,6 +183,18 @@ elif factor == "Bananas in Malaysian Diets and Institutional Demand":
     - Seasonal variations and supply chain issues can still influence prices.  
     """)
 
+with st.expander("References"):
+    st.markdown("""
+    - **Dataset Sources**:
+      - [January Pricecatcher Dataset](https://raw.githubusercontent.com/nicaaaaaaa/advdsproject/refs/heads/main/012024.csv)
+      - [February Pricecatcher Dataset](https://raw.githubusercontent.com/nicaaaaaaa/advdsproject/refs/heads/main/pc022024.csv)
+    - **Tools Used**:
+      - [Streamlit Documentation](https://docs.streamlit.io/)
+      - [Seaborn Documentation](https://seaborn.pydata.org/)
+    """)
+
+
+
 # Streamlit app title
 st.title("Predictive Analysis")
 st.markdown("""
@@ -389,13 +401,6 @@ st.markdown("""
 - Higher demand for bananas as gifts, offerings, and for festive consumption during Chinese New Year.
 - Delays in supply caused by worker holidays and seasonal issues, leading to reduced harvests and logistical challenges.
 - Wholesalers and retailers engage in market investing, anticipating higher demand, which contributes to price increases.
-
-
-
-
-
-
-
 
 """)
 
