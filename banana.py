@@ -185,29 +185,11 @@ elif factor == "Bananas in Malaysian Diets and Institutional Demand":
 
 with st.expander("References"):
     st.markdown("""
-    - **Dataset Sources**:
-      - [January Pricecatcher Dataset](https://raw.githubusercontent.com/nicaaaaaaa/advdsproject/refs/heads/main/012024.csv)
-      - [February Pricecatcher Dataset](https://raw.githubusercontent.com/nicaaaaaaa/advdsproject/refs/heads/main/pc022024.csv)
-    - **Tools Used**:
-      - [Streamlit Documentation](https://docs.streamlit.io/)
-      - [Seaborn Documentation](https://seaborn.pydata.org/)
+    - **Article**:
+      - [Banana easy to cultivate](https://www.hmetro.com.my)
+      - [Kid's diet](https://raw.githubusercontent.com/nicaaaaaaa/advdsproject/refs/heads/main/pc022024.csv, 
+         https://www.moh.gov.my/moh/resources/auto%20download%20images/589d765c1b95f.pdf)
     """)
-
-st.markdown("""
-<style>
-.hover-link {
-    color: blue;
-    text-decoration: underline;
-}
-.hover-link:hover {
-    color: red;
-}
-</style>
-
-### References
-- <a href="https://github.com/nicaaaaaaa/advdsproject" class="hover-link">GitHub Repository</a>
-- <a href="https://streamlit.io" class="hover-link">Streamlit Documentation</a>
-""", unsafe_allow_html=True)
 
 
 
