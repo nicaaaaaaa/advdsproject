@@ -187,8 +187,9 @@ with st.expander("References"):
     st.markdown("""
     - **Article**:
       - [Banana easy to cultivate](https://www.hmetro.com.my)
-      - [Kid's diet](https://raw.githubusercontent.com/nicaaaaaaa/advdsproject/refs/heads/main/pc022024.csv, 
-         https://www.moh.gov.my/moh/resources/auto%20download%20images/589d765c1b95f.pdf)
+      - [Kid's diet](https://www.moh.gov.my/moh/resources/auto%20download%20images/589d765c1b95f.pdf,
+         https://www.krinstitute.org/assets/contentMS/img/template/editor/Discussion%20Paper_Addressing%20Malnutrition%20in%20Malaysia.pdf,
+         https://www.nutriweb.org.my/picture/upload/file/Nutrition%20Guide%20for%20early%20childhood.pdf)
     """)
 
 
