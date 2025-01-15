@@ -343,19 +343,7 @@ plt.title('Actual vs. Predicted Prices')
 plt.ylabel('Price')
 st.pyplot(fig)
 
-# Scatter plot
-st.subheader("Scatter Plot: Actual vs. Predicted Prices")
-fig, ax = plt.subplots(figsize=(8, 6))
-sns.scatterplot(x=y_test, y=y_pred, ax=ax)
-plt.plot([min(y_test), max(y_test)], [min(y_test), max(y_test)], 'k--', linewidth=2)  # Diagonal line
-plt.xlabel('Actual Price')
-plt.ylabel('Predicted Price')
-plt.title('Actual vs. Predicted Prices')
-st.pyplot(fig)
-# Summary statistics by district
-district_summary = merged_data_perak.groupby('district')['item_price'].describe()
-st.subheader("Summary Statistics by District")
-st.write(district_summary)
+
 
 
 st.title ("Prescriptive Analysis")  
