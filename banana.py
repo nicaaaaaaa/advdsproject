@@ -240,15 +240,16 @@ district_predictions_perak = {
     "Kuala Kangsar": 6.21,
     "Larut, Matang & Selama": 6.34,
     "Hilir Perak": 7.46,
-    "Batang Padang": 6.30
+    "Batang Padang": 6.30,
+    "Bagan Datuk":4.0
 }
 
 # Define the district price DataFrame
 district_price_perak = pd.DataFrame({
     'district': ['Muallim', 'Perak Tengah', 'Kerian', 'Kinta', 'Hulu Perak', 
                  'Manjung', 'Kuala Kangsar', 'Larut, Matang & Selama', 
-                 'Hilir Perak', 'Batang Padang'],
-    'item_price': [6.08, 6.30, 6.5, 6.89, 6.72, 6.30, 6.21, 6.34, 7.46, 6.30]
+                 'Hilir Perak', 'Batang Padang',Bagan Datuk],
+    'item_price': [6.08, 6.30, 6.5, 6.89, 6.72, 6.30, 6.21, 6.34, 7.46, 6.30,40]
 })
 
 # Sort both lists by district name to ensure consistency in order
