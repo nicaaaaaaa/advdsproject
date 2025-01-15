@@ -309,24 +309,7 @@ r2 = r2_score(y_test, y_pred)
 st.subheader("Model Evaluation")
 st.write(f"Mean Squared Error: {mse:.2f}")
 
-import pandas as pd
-from sklearn.tree import DecisionTreeRegressor
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import mean_squared_error
 
-
-# Get predictions for all districts in Perak
-all_districts = district_average_prices_perak['district'].unique()
-all_districts_encoded = pd.get_dummies(pd.DataFrame({'district': all_districts}), columns=['district'], drop_first=True)
-predicted_prices_all = model.predict(all_districts_encoded)
-
-# Create a DataFrame with actual and predicted prices
-results_df = pd.DataFrame({'district': all_districts,
-                           'actual_price': district_average_prices_perak['item_price'],
-                           'predicted_price': predicted_prices_all})
-
-# Print the results
-print(results_df)
 
 st.write(predicted_df)
 
