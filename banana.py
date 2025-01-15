@@ -193,6 +193,17 @@ with st.expander("References"):
       - [Seaborn Documentation](https://seaborn.pydata.org/)
     """)
 
+st.markdown("""
+### References
+
+#### 📂 Dataset Sources
+- [January Dataset](https://raw.githubusercontent.com/nicaaaaaaa/advdsproject/refs/heads/main/012024.csv)
+- [February Dataset](https://raw.githubusercontent.com/nicaaaaaaa/advdsproject/refs/heads/main/pc022024.csv)
+
+#### 🛠️ Tools
+- [Streamlit Documentation](https://docs.streamlit.io/)
+- [Seaborn Documentation](https://seaborn.pydata.org/)
+""")
 
 
 # Streamlit app title
