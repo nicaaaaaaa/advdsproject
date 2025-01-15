@@ -314,7 +314,7 @@ from sklearn.tree import DecisionTreeRegressor
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error
 
-.
+
 # Get predictions for all districts in Perak
 all_districts = district_average_prices_perak['district'].unique()
 all_districts_encoded = pd.get_dummies(pd.DataFrame({'district': all_districts}), columns=['district'], drop_first=True)
